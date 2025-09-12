@@ -1,7 +1,11 @@
 const express = require('express')
 const morgan  = require('morgan')
+const cors = require('cors')
 const app = express()
+
 app.use(express.json())
+app.use(express.static('dist'))
+// app.use(cors)
 app.use(morgan('tiny'))
 
 let users = [
@@ -120,7 +124,27 @@ app.post('/api/users', (req, res) => {
   res.json(user)
 })
 
-const PORT = 3001
+// update user
+app.put('/api/users/:id', (req, res) => {
+  const id = req.params.id
+  const body = req.body
+
+  const user = users.find(u => u.id === id)
+  if(!user){
+    res.status(404).end()
+  }
+
+  const updatedUser = {
+    username: body.username,
+    id: user.id,
+    workouts: body.workouts
+  }
+
+  users = users.map(u => u.id !== id ? u : updatedUser)
+  res.json(updatedUser)
+})
+
+const PORT = process.env.PORT || 3001
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`)
 })

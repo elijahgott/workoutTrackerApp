@@ -1,5 +1,7 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Routes, Route } from 'react-router'
+
+// import userService from './services/users' // need for getting data from backend
 
 import NavigationBar from './components/NavigationBar'
 import Home from './components/Home'
@@ -46,13 +48,19 @@ const user = {
 }
 
 function App() {
-  const [workouts, setWorkouts] = useState(user.workouts)
+  const [currentUser, setCurrentUser] = useState(null)
+  // const [workouts, setWorkouts] = useState(null)
+
+  useEffect(() => {
+    setCurrentUser(user)
+  }, [])
+
   return (
     <>
       <NavigationBar />
       <Routes>
-        <Route index element={<Home currentUser={user} />} />
-        <Route path='create' element={<CreateNew currentUser={user} workouts={workouts} setWorkouts={setWorkouts} />} />
+        <Route index element={<Home currentUser={currentUser} />} />
+        <Route path='create' element={<CreateNew currentUser={currentUser} />} />
       </Routes>
     </>
   )
