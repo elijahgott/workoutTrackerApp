@@ -1,8 +1,8 @@
-PUT http://localhost:3001/api/users/68c57089a237c63e2e129403 HTTP/1.1
+PUT http://localhost:3001/api/users/68c5819fc71bb06aa0573b64 HTTP/1.1
 Content-Type: application/json
 
 {
-  "username": "judith",
+  "username": "elo",
   "workouts": [
     {
       "name": "push",

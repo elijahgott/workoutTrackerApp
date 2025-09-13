@@ -38,7 +38,7 @@ const userSchema = new mongoose.Schema({
     unique: true,
     minlength: 3
   },
-  // passwordHash: String,
+  passwordHash: String,
   workouts: [workoutSchema]
 })
 
@@ -48,7 +48,7 @@ userSchema.set('toJSON', {
     delete returnedObject._id
     delete returnedObject.__v
     // password hash should not be revealed
-    // delete returnedObject.passwordHash
+    delete returnedObject.passwordHash
   }
 })
 

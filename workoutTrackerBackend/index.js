@@ -1,5 +1,6 @@
 const express = require('express')
 const mongoose = require('mongoose')
+const bcrypt = require('bcrypt')
 const morgan  = require('morgan')
 const cors = require('cors')
 const app = express()
@@ -7,126 +8,33 @@ require('dotenv').config()
 
 const User = require('./models/user')
 
+const requestLogger = (request, response, next) => {
+  console.log('Method:', request.method)
+  console.log('Path:  ', request.path)
+  console.log('Body:  ', request.body)
+  console.log('---')
+  next()
+}
+
 app.use(express.json())
 app.use(express.static('dist'))
 // app.use(cors)
 app.use(morgan('tiny'))
+app.use(requestLogger)
 
 mongoose.set('strictQuery', false)
 
-const newUser = new User({
-  username: 'elo',
-  workouts: [
-    {
-      name: "push",
-      exercises: [
-        {
-          name: "bench press",
-          sets: 3,
-          reps: 5,
-          weight: 225
-        },
-        {
-          name: "chest fly machine",
-          sets: 2,
-          reps: 8,
-          weight: 150
-        }
-      ]
-    },
-    {
-      name: "legs",
-      exercises: [
-        {
-          name: "squat",
-          sets: 3,
-          reps: 5,
-          weight: 315
-        },
-        {
-          name: "hamstring curl machine",
-          sets: 2,
-          reps: 12,
-          weight: 200
-        }
-      ]
-    }
-  ]
-})
+const errorHandler = (error, request, response, next) => {
+  console.error(error.message)
 
-// newUser.save()
-//   .then(() => {
-//     console.log('elo saved to DB')
-//   })
-//   .catch((e) => {
-//     console.log('error saving elo to db:', e)
-//   })
-
-let users = [
-  {
-    username: 'elo',
-    id: '1',
-    workouts: [
-      {
-        name: 'push',
-        exercises: [
-          {
-            name: 'bench press',
-            sets: 3,
-            reps: 5,
-            weight: 225
-          },
-          {
-            name: 'chest fly machine',
-            sets: 2,
-            reps: 8,
-            weight: 150
-          }
-        ]
-      },
-      {
-        name: 'legs',
-        exercises: [
-          {
-            name: 'squat',
-            sets: 3,
-            reps: 5,
-            weight: 315
-          },
-          {
-            name: 'hamstring curl machine',
-            sets: 2,
-            reps: 12,
-            weight: 200
-          }
-        ]
-      }
-    ]
-  },
-  {
-    username: 'judith',
-    id: '2',
-    workouts: [
-      {
-        name: 'push',
-        exercises: [
-          {
-            name: 'bench press',
-            sets: 3,
-            reps: 8,
-            weight: 135
-          },
-          {
-            name: 'chest fly machine',
-            sets: 2,
-            reps: 10,
-            weight: 100
-          }
-        ]
-      }
-    ]
+  if (error.name === 'CastError') {
+    return response.status(400).send({ error: 'malformatted id' })
+  } else if (error.name === 'ValidationError') {
+    return response.status(400).json({ error: error.message })
   }
-]
+
+  next(error)
+}
 
 const MONGODB_URI = process.env.MONGODB_URI
 
@@ -172,23 +80,25 @@ app.delete('/api/users/:id', (req, res) => {
 })
 
 // create new user
-app.post('/api/users', (req, res) => {
-  const body = req.body
-  if(!body.username){
-    return res.status(400).json({error: 'missing username'})
+app.post('/api/users', async (req, res) => {
+  const { username, password } = req.body
+
+  const saltRounds = 10
+  const passwordHash = await bcrypt.hash(password, saltRounds)
+
+  if( !username || !password ){
+    return res.status(400).json({error: 'Missing credentials'})
   }
 
   const user = new User({
-    username: body.username,
-    workouts: body.workouts || [],
+    username,
+    passwordHash,
+    workouts: req.body.workouts || [],
   })
 
-  user.save()
-    .then(() => res.json(user))
-    .catch(e => {
-      console.log('Error creating user: ', e)
-      res.status(404).send({ error: 'Error creating user.' })
-    })
+  const savedUser = await user.save()
+
+  res.status(201).json(savedUser)
 })
 
 // update user
@@ -215,6 +125,13 @@ app.put('/api/users/:id', (req, res) => {
     res.status(404).send({ error: 'Error editing user.' })
   })
 })
+
+const unknownEndpoint = (request, response) => {
+  response.status(404).send({ error: 'unknown endpoint' })
+}
+
+app.use(unknownEndpoint)
+app.use(errorHandler)
 
 const PORT = process.env.PORT
 app.listen(PORT, () => {
