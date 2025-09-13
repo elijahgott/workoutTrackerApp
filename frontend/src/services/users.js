@@ -7,21 +7,28 @@ const baseUrl = '/api/users'
 //   token = `Bearer ${newToken}`
 // }
 
-const getAll = () => {
-  axios.get(baseUrl)
-    .then(res => res.data)
+const getAll = async () => {
+  const res = await axios.get(baseUrl)
+  return res.data
 }
 
-const getOne = (id) => {
-  console.log(id)
-  axios.get(`${baseUrl}/${id}`)
-    .then(res => {
-      console.log(res.data)
-      return res.data
-    })
-    .catch((e) => {
-      console.log(`Error: ${e}`)
-    })
+const getOne = async (id) => {
+  const res = await axios.get(`${baseUrl}/${id}`)
+  return res.data
 }
 
-export default { getAll, getOne }
+const create = async newObject => {
+  const config = {
+    headers: { Authorization: token }
+  }
+
+  const res = await axios.post(baseUrl, newObject, config)
+  return res.data
+}
+
+const update = (id, newObject) => {
+  const req = axios.put(`${baseUrl}/${id}`, newObject)
+  return req.then(res => res.data)
+}
+
+export default { getAll, getOne, create, update } // setToken

@@ -1,21 +1,33 @@
 import { useState } from 'react'
+import userService from '../services/users'
 
-const CreateWorkout = ({ currentUser, workouts, setWorkouts }) => {
+const CreateWorkout = ({ currentUser, setCurrentUser, workouts, setWorkouts }) => {
   const [workoutName, setWorkoutName] = useState('')
 
   const handleSubmit = (e) => {
     e.preventDefault()
 
-    const workout = {
-      name: workoutName,
-      exercises: []
+    if(!workoutName){
+      console.error('Missing workout name.')
     }
+    else{
+      const newWorkout = {
+        name: workoutName,
+        exercises: []
+      }
 
-    const updatedWorkouts = workouts.concat(workout)
-    console.log(updatedWorkouts)
-    setWorkouts(updatedWorkouts)
+      const updatedWorkouts = workouts.concat(newWorkout)
+      const updatedUser = {
+        username: currentUser.username,
+        workouts: currentUser.workouts.concat(newWorkout),
+        id: currentUser.id
+      }
 
-    console.log(`submitted workout ${workoutName} to ${currentUser.username}'s workouts`)
+      userService.update(currentUser.id, updatedUser)
+      setCurrentUser(updatedUser)
+      setWorkouts(updatedWorkouts)
+      setWorkoutName('')
+    }
   }
 
   return(
