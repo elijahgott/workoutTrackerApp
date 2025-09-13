@@ -12,6 +12,7 @@ const Home = ({ currentUser }) => {
     <>
       <h1>Welcome {currentUser.username}!</h1>
       <Workout workouts={workouts} />
+      <p><strong>TODO: Implement ability to add workouts / exercises from frontend</strong></p>
       <CreateWorkout currentUser={currentUser} workouts={workouts} setWorkouts={setWorkouts} />
       <CreateExercise workouts={workouts} setWorkouts={setWorkouts} />
     </>
