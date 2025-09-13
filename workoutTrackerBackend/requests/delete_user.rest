@@ -1,4 +1,4 @@
-DELETE http://localhost:3001/api/users/68c581f9c71bb06aa0573b76 HTTP/1.1
+DELETE http://localhost:3001/api/users/68c587a6e86f6c38454cfe33 HTTP/1.1
 Content-Type: application/json
 
 # functions properly
