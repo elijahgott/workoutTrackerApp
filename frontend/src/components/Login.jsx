@@ -1,12 +1,26 @@
 import { useState } from 'react'
+import loginService from '../services/login'
 
-const Login = () => {
+const Login = ({ setCurrentUser }) => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault()
     console.log(`logging in with: ${username}, ${password}`)
+
+    try{
+      const user = await loginService.login({ username, password })
+      window.localStorage.setItem(
+        'loggedInWorkoutAppUser', JSON.stringify(user)
+      )
+      setCurrentUser(user)
+      setUsername('')
+      setPassword('')
+    }
+    catch{
+      console.error('Wrong credentials')
+    }
   }
 
   const handleCreateUser = () => {
