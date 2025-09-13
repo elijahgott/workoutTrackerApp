@@ -24,7 +24,9 @@
   "homepage": "https://github.com/elijahgott/workoutTrackerApp#readme",
   "dependencies": {
     "cors": "^2.8.5",
+    "dotenv": "^17.2.2",
     "express": "^5.1.0",
+    "mongoose": "^8.18.1",
     "morgan": "^1.10.1"
   }
 }
