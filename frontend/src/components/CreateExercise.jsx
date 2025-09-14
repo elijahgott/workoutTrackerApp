@@ -1,6 +1,8 @@
 import { useState } from 'react'
 import userService from '../services/users'
 
+import ExerciseInput from './ExerciseInput'
+
 const CreateExercise = ({ currentUser, setCurrentUser, workouts, setWorkouts }) => {
   const [workoutName, setWorkoutName] = useState('')
   const [exerciseName, setExerciseName] = useState('')
@@ -9,8 +11,8 @@ const CreateExercise = ({ currentUser, setCurrentUser, workouts, setWorkouts }) 
   const [weight, setWeight] = useState('')
 
 
-  const handleSubmit = (e) => {
-    e.preventDefault()
+  const handleSubmit = (event) => {
+    event.preventDefault()
 
     if(workoutName && exerciseName && sets && reps && weight){
       const workout = currentUser.workouts.find(w => w.name === workoutName)
@@ -50,24 +52,17 @@ const CreateExercise = ({ currentUser, setCurrentUser, workouts, setWorkouts }) 
   return(
     <>
       <h1>Add New Exercise</h1>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={(event) => handleSubmit(event)}>
         <select defaultValue={''} onChange={ ({ target }) => setWorkoutName(target.value) }>
           <option value=''>Select a Workout</option>
           {workouts.map(w => <option key={ w.name } value={ w.name }>{ w.name }</option>)}
         </select>
 
-        <label htmlFor='exercisename'>Exercise Name:</label>
-        <input type="text" id='exercisename' name='exercisename' value={exerciseName} onChange={({target}) => setExerciseName(target.value)} />
-
-        <label htmlFor='sets'>No. of Sets:</label>
-        <input type="number" name='sets' id='sets' value={sets} onChange={({target}) => setSets(target.value)} />
-
-        <label htmlFor='sets'>No. of Reps:</label>
-        <input type="number" name='reps' id='reps' value={reps} onChange={({target}) => setReps(target.value)} />
-
-        <label htmlFor='sets'>Weight (in lbs):</label>
-        <input type="number" name='weight' id='weight' value={weight} onChange={({target}) => setWeight(target.value)} />
-
+        <ExerciseInput exerciseName={exerciseName} setExerciseName={setExerciseName}
+        sets={sets} setSets={setSets}
+        reps={reps} setReps={setReps}
+        weight={weight} setWeight={setWeight} />
+        
         <button type='submit'>Add Exercise</button>
       </form>
     </>
