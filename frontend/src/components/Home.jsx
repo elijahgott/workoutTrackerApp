@@ -9,9 +9,9 @@ const Home = ({ currentUser, setCurrentUser }) => {
   
   return(
     <>
+      <p><strong>TODO: Implement ability to sort workouts or search workouts</strong></p>
       <h1>Welcome {currentUser.username}!</h1>
       <Workout currentUser={currentUser} setCurrentUser={setCurrentUser} workouts={workouts} setWorkouts={setWorkouts} />
-      <p><strong>TODO: Implement ability to edit and delete workouts / exercises from frontend</strong></p>
       <CreateWorkout currentUser={currentUser} setCurrentUser={setCurrentUser} workouts={workouts} setWorkouts={setWorkouts} />
       <CreateExercise currentUser={currentUser} setCurrentUser={setCurrentUser} workouts={workouts} setWorkouts={setWorkouts} />
     </>

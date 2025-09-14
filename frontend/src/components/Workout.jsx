@@ -47,30 +47,50 @@ const Workout = ({ currentUser, setCurrentUser, workouts, setWorkouts }) => {
 
   const handleEditExercise = async (event, workoutId, exerciseId) => {
     event.preventDefault()
-    console.log(workoutId, exerciseId)
     const user = await userService.getOne(currentUser.id)
     
     const workout = user.workouts.find(w => w._id === workoutId)
     const exercise = workout.exercises.find(e => e._id === exerciseId)
-    console.log(exercise)
-    // workout.exercises = updatedExercises   
     
-    // const updatedWorkouts = user.workouts.map(w => w._id !== workoutId ? w : workout)
-    // const updatedUser = {
-    //   ...user,
-    //   workouts: updatedWorkouts
-    // }
+    const updatedExercise = {
+      ...exercise,
+      name: exerciseName,
+      sets: parseInt(sets),
+      reps: parseInt(reps),
+      weight: parseInt(weight)
+    }
 
-    // await userService.update(user.id, updatedUser)
-    // setCurrentUser(updatedUser)
-    // setWorkouts(updatedWorkouts)
-    // console.log(`delete exercise ${exerciseId}`);
+    const updatedWorkout = {
+      ...workout,
+      exercises: workout.exercises.map(e => e._id !== exerciseId ? e : updatedExercise)
+    }
+
+    const updatedUser = {
+      ...user,
+      workouts: user.workouts.map(w => w._id !== workoutId ? w : updatedWorkout)
+    }
+
+    await userService.update(user.id, updatedUser)
+    toggleVisibility(updatedExercise)
+
+    setCurrentUser(updatedUser)
+    setWorkouts(updatedUser.workouts)
   }
 
   // need to figure out how to change the visiblity of each individual exercise toggle, not all at once
-  const [visible, setVisible] = useState(false)
-  const toggleVisibility = () => {
-    setVisible(!visible)
+  const [editingExerciseId, setEditingExerciseId] = useState(null)
+  const toggleVisibility = (exercise) => {
+    if(editingExerciseId === exercise._id){
+      setEditingExerciseId(null)
+    }
+    else{ // editing mode
+      setEditingExerciseId(exercise._id)
+
+      setExerciseName(exercise.name)
+      setSets(exercise.sets)
+      setReps(exercise.reps)
+      setWeight(exercise.weight)
+    }
   }
 
   return(
@@ -88,12 +108,12 @@ const Workout = ({ currentUser, setCurrentUser, workouts, setWorkouts }) => {
                             <td>{e.name}</td>
                             <td>{e.sets} x {e.reps}</td>
                             <td>{e.weight} lbs</td>
-                            <td><button onClick={toggleVisibility}>{visible ? 'Cancel' : 'Edit'}</button></td>
+                            <td><button onClick={() => toggleVisibility(e)}>{editingExerciseId === e._id ? 'Cancel' : 'Edit'}</button></td>
                             <td><button onClick={(event) => handleDeleteExercise(event, w._id, e._id)}>Delete</button></td>
                           </tr>
                         </tbody>
                       </table>
-                      <Togglable visible={visible} buttonLabel={'Edit'}>
+                      {editingExerciseId === e._id && (
                         <form onSubmit={(event) => handleEditExercise(event, w._id, e._id)}>
                           <ExerciseInput exerciseName={exerciseName} setExerciseName={setExerciseName}
                           sets={sets} setSets={setSets}
@@ -102,7 +122,10 @@ const Workout = ({ currentUser, setCurrentUser, workouts, setWorkouts }) => {
                           {/* origName={e.name} origSets={e.sets} origReps={e.reps} origWeight={e.weight} */}
                           <button type='submit'>Update</button>
                         </form>
-                      </Togglable>
+                      )}
+                      {/* <Togglable visible={visible} buttonLabel={'Edit'}>
+                        
+                      </Togglable> */}
                     </div>
                   )
                 })}
