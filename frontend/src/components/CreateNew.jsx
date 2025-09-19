@@ -1,13 +1,14 @@
 import CreateWorkout from './CreateWorkout'
 import CreateExercise from './CreateExercise'
 
-const CreateNew = ({ currentUser, workouts, setWorkouts }) => {
-  // I think this works properly rn, but page gets refreshed when going to index page and added data gets cleared
-  // once I connect to DB i will use this
+const CreateNew = ({ currentUser, setCurrentUser, workouts, setWorkouts }) => {
   return(
     <>
-      <CreateWorkout currentUser={currentUser} workouts ={workouts} setWorkouts={setWorkouts} />
-      <CreateExercise workouts={workouts} setWorkouts={setWorkouts} />
+      <CreateWorkout currentUser={currentUser} setCurrentUser={setCurrentUser} workouts ={workouts} setWorkouts={setWorkouts} />
+      {workouts.length === 0 ? null 
+      :
+      <CreateExercise currentUser={currentUser} setCurrentUser={setCurrentUser} workouts={workouts} setWorkouts={setWorkouts} />
+      }
     </>
   )
 }

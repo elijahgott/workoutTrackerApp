@@ -2,9 +2,7 @@ import { useState } from 'react'
 import userService from '../services/users'
 import ExerciseInput from './ExerciseInput'
 
-import Togglable from './Togglable'
-
-const Workout = ({ currentUser, setCurrentUser, workouts, setWorkouts }) => {
+const Workouts = ({ currentUser, setCurrentUser, workouts, setWorkouts }) => {
   const handleDeleteWorkout = async (id) => { // needs update before deleting recently added workout
     const user = await userService.getOne(currentUser.id)
     
@@ -95,7 +93,11 @@ const Workout = ({ currentUser, setCurrentUser, workouts, setWorkouts }) => {
 
   return(
     <>
-      {workouts.map(w => {
+      <h1>My Workouts</h1>
+      {
+      workouts.length === 0 ? <p>Nothing here...</p>
+      :
+      workouts.map(w => {
         return(
           <div key={w.name}>
             <h1>{w.name}<button onClick={() => handleDeleteWorkout(w._id)}>Delete</button></h1>
@@ -123,9 +125,6 @@ const Workout = ({ currentUser, setCurrentUser, workouts, setWorkouts }) => {
                           <button type='submit'>Update</button>
                         </form>
                       )}
-                      {/* <Togglable visible={visible} buttonLabel={'Edit'}>
-                        
-                      </Togglable> */}
                     </div>
                   )
                 })}
@@ -136,4 +135,4 @@ const Workout = ({ currentUser, setCurrentUser, workouts, setWorkouts }) => {
   )
 }
 
-export default Workout
+export default Workouts

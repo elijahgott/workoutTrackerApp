@@ -1,16 +1,17 @@
 import { useState, useEffect } from 'react'
-import { Routes, Route } from 'react-router'
+// import { Routes, Route } from 'react-router'
 
 import userService from './services/users'
 
 import NavigationBar from './components/NavigationBar'
 import Login from './components/Login'
 import Home from './components/Home'
-import CreateNew from './components/CreateNew'
+// import CreateNew from './components/CreateNew'
 
 function App() {
   const [currentUser, setCurrentUser] = useState(null)
 
+  // get currently logged in user
   useEffect(() => {
     const fetchUser = async () => {
       const loggedInUserJSON = window.localStorage.getItem('loggedInWorkoutAppUser')
@@ -23,17 +24,20 @@ function App() {
     fetchUser()
   }, [])
 
+  // get workouts / exercises from db whenever updated
+  // should fix issue where user cant delete instantly after creating
+  useEffect(() => {
+
+  }, [])
+
   if(!currentUser){
     return(<Login setCurrentUser={setCurrentUser} />)
   }
 
   return (
     <>
-      <NavigationBar setCurrentUser={setCurrentUser} />
-      <Routes>
-        <Route index element={<Home currentUser={currentUser} setCurrentUser={setCurrentUser} />} />
-        <Route path='create' element={<CreateNew currentUser={currentUser} />} />
-      </Routes>
+      <NavigationBar currentUser={currentUser} setCurrentUser={setCurrentUser} />
+      <Home currentUser={currentUser} setCurrentUser={setCurrentUser} />
     </>
   )
 }
