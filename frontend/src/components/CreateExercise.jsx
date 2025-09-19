@@ -1,51 +1,48 @@
 import { useState } from 'react'
-import userService from '../services/users'
+import exerciseService from '../services/exercises'
 
 import ExerciseInput from './ExerciseInput'
 
-const CreateExercise = ({ currentUser, setCurrentUser, workouts, setWorkouts }) => {
-  const [workoutName, setWorkoutName] = useState('')
+const CreateExercise = ({ fetchWorkouts, currentUser, workouts, setWorkouts }) => {
+  const [workoutId, setWorkoutId] = useState('')
   const [exerciseName, setExerciseName] = useState('')
   const [sets, setSets] = useState('')
   const [reps, setReps] = useState('')
   const [weight, setWeight] = useState('')
 
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault()
 
-    if(workoutName && exerciseName && sets && reps && weight){
-      const workout = currentUser.workouts.find(w => w.name === workoutName)
-
+    if(workoutId && exerciseName && sets && reps && weight){
       const newExercise = {
         name: exerciseName,
         sets: parseInt(sets),
         reps: parseInt(reps),
-        weight: parseInt(weight)
+        weight: parseInt(weight),
+        workoutId: workoutId,
+        userId: currentUser.id
       }
-    
+      exerciseService.create(newExercise)
+
+      const workout = workouts.find(w => w.id === workoutId)
+      const updatedExercises = workout.exercises.concat(newExercise)
       const updatedWorkout = {
-        name: workout.name,
-        exercises: workout.exercises.concat(newExercise)
+        ...workout,
+        exercises: updatedExercises
       }
-     
-      const updatedUser = {
-        username: currentUser.username,
-        workouts: currentUser.workouts.map(w => w.name !== workoutName ? w : updatedWorkout),
-        id: currentUser.id
-      }
-      userService.update(currentUser.id, updatedUser)
-      setWorkouts(updatedUser.workouts)
-      setCurrentUser(updatedUser)
+      const updatedWorkouts = workouts.map(w => w.id !== workoutId ? w : updatedWorkout)
+      setWorkouts(updatedWorkouts)
 
       setExerciseName('')
       setSets('')
       setReps('')
       setWeight('')
+
+      setTimeout(() => fetchWorkouts(), 1000)
     }
     else{
-      console.log(workoutName, exerciseName, sets, reps, weight)
-      console.error('Error submitting exercise')
+      console.error('Error submitting exercise.')
     }
   }
 
@@ -53,9 +50,9 @@ const CreateExercise = ({ currentUser, setCurrentUser, workouts, setWorkouts }) 
     <>
       <h1>Add New Exercise</h1>
       <form onSubmit={(event) => handleSubmit(event)}>
-        <select defaultValue={''} onChange={ ({ target }) => setWorkoutName(target.value) }>
+        <select defaultValue={''} onChange={ ({ target }) => setWorkoutId(target.value) }>
           <option value=''>Select a Workout</option>
-          {workouts.map(w => <option key={ w.id } value={ w.name }>{ w.name }</option>)}
+          {workouts.map(w => <option key={ w.id } value={ w.id }>{ w.name }</option>)}
         </select>
 
         <ExerciseInput exerciseName={exerciseName} setExerciseName={setExerciseName}

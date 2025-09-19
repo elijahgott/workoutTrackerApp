@@ -12,7 +12,7 @@ exercisesRouter.get('/', async (req, res) => {
 
 // get specific exercise
 exercisesRouter.get('/:id', async (req, res) => {
-  const exercise = Exercise.find({ _id: req.params.id })
+  const exercise = await Exercise.find({ _id: req.params.id })
   res.json(exercise)
 })
 

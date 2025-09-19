@@ -1,7 +1,8 @@
 import { useState } from 'react'
-import userService from '../services/users'
+// import userService from '../services/users'
+import workoutService from '../services/workouts'
 
-const CreateWorkout = ({ currentUser, setCurrentUser, workouts, setWorkouts }) => {
+const CreateWorkout = ({ fetchWorkouts, currentUser, workouts, setWorkouts }) => {
   const [workoutName, setWorkoutName] = useState('')
 
   const handleSubmit = (e) => {
@@ -13,20 +14,16 @@ const CreateWorkout = ({ currentUser, setCurrentUser, workouts, setWorkouts }) =
     else{
       const newWorkout = {
         name: workoutName,
-        exercises: []
+        exercises: [],
+        userId: currentUser.id
       }
 
       const updatedWorkouts = workouts.concat(newWorkout)
-      const updatedUser = {
-        username: currentUser.username,
-        workouts: currentUser.workouts.concat(newWorkout),
-        id: currentUser.id
-      }
-
-      userService.update(currentUser.id, updatedUser)
-      setCurrentUser(updatedUser)
+      workoutService.create(newWorkout)
       setWorkouts(updatedWorkouts)
       setWorkoutName('')
+
+      setTimeout(() => fetchWorkouts(), 1000)
     }
   }
 

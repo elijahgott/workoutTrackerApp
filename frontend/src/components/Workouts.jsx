@@ -1,43 +1,38 @@
 import { useState } from 'react'
-import userService from '../services/users'
+import workoutService from '../services/workouts'
+import exerciseService from '../services/exercises'
 
 import ExerciseInput from './ExerciseInput'
 
-const Workouts = ({ currentUser, setCurrentUser, workouts, setWorkouts }) => {
+const Workouts = ({ fetchWorkouts, workouts, setWorkouts }) => {
 
-  const handleDeleteWorkout = async (id) => { // needs update before deleting recently added workout
-    const user = await userService.getOne(currentUser.id)
-    
-    const updatedWorkouts = user.workouts.filter(w => w._id !== id)
-    const updatedUser = {
-      ...user,
-      workouts: updatedWorkouts
+  const handleDeleteWorkout = async (event, workoutId) => { // needs update before deleting recently added workout
+    event.preventDefault()
+
+    const deleteWorkout = await workoutService.deleteById(workoutId)
+    if(deleteWorkout.status !== 204){
+      console.log('Error deleting workout.')
     }
-
-    await userService.update(user.id, updatedUser)
-    setCurrentUser(updatedUser)
+    const updatedWorkouts = workouts.filter(w => w.id !== workoutId)
     setWorkouts(updatedWorkouts)
-    console.log(`delete workout ${id}`);
+    setTimeout(() => fetchWorkouts(), 1000)
   }
 
   const handleDeleteExercise = async (event, workoutId, exerciseId) => { // needs update before deleting recently added workout
     event.preventDefault()
-    const user = await userService.getOne(currentUser.id)
-    
-    const workout = user.workouts.find(w => w._id === workoutId)
-    const updatedExercises = workout.exercises.filter(e => e._id !== exerciseId)
-    workout.exercises = updatedExercises   
-    
-    const updatedWorkouts = user.workouts.map(w => w._id !== workoutId ? w : workout)
-    const updatedUser = {
-      ...user,
-      workouts: updatedWorkouts
+    const deleteExercise = await exerciseService.deleteById(exerciseId)
+    if(deleteExercise.status !== 204){
+      console.log('Error deleting exercise.')
     }
-
-    await userService.update(user.id, updatedUser)
-    setCurrentUser(updatedUser)
-    setWorkouts(updatedWorkouts)
-    console.log(`delete exercise ${exerciseId}`);
+    const workout = workouts.find(w => w.id === workoutId)
+    const updatedExercises = workout.exercises.filter(e => e.id !== exerciseId)
+      const updatedWorkout = {
+        ...workout,
+        exercises: updatedExercises
+      }
+      const updatedWorkouts = workouts.map(w => w.id !== workoutId ? w : updatedWorkout)
+      setWorkouts(updatedWorkouts)
+      setTimeout(() => fetchWorkouts(), 1000)
   }
 
   const [exerciseName, setExerciseName] = useState('')
@@ -47,10 +42,14 @@ const Workouts = ({ currentUser, setCurrentUser, workouts, setWorkouts }) => {
 
   const handleEditExercise = async (event, workoutId, exerciseId) => {
     event.preventDefault()
-    const user = await userService.getOne(currentUser.id)
-    
-    const workout = user.workouts.find(w => w._id === workoutId)
-    const exercise = workout.exercises.find(e => e._id === exerciseId)
+
+    if(!(exerciseName && sets && reps && weight)){
+      console.log('One or more fields is empty.')
+    }
+
+    const workout = workouts.find(w => w.id === workoutId)
+    const exercise = await exerciseService.getOne(exerciseId)
+    toggleVisibility(exercise)
     
     const updatedExercise = {
       ...exercise,
@@ -60,31 +59,26 @@ const Workouts = ({ currentUser, setCurrentUser, workouts, setWorkouts }) => {
       weight: parseInt(weight)
     }
 
+    await exerciseService.update(exerciseId, updatedExercise)
+
     const updatedWorkout = {
       ...workout,
-      exercises: workout.exercises.map(e => e._id !== exerciseId ? e : updatedExercise)
+      exercises: workout.exercises.map(e => e.id !== exerciseId ? e : updatedExercise)
     }
+    
+    const updatedWorkouts = workouts.map(w => w.id !== workoutId ? w : updatedWorkout)
 
-    const updatedUser = {
-      ...user,
-      workouts: user.workouts.map(w => w._id !== workoutId ? w : updatedWorkout)
-    }
-
-    await userService.update(user.id, updatedUser)
-    toggleVisibility(updatedExercise)
-
-    setCurrentUser(updatedUser)
-    setWorkouts(updatedUser.workouts)
+    setWorkouts(updatedWorkouts)
+    setTimeout(() => fetchWorkouts(), 1000)
   }
 
-  // need to figure out how to change the visiblity of each individual exercise toggle, not all at once
   const [editingExerciseId, setEditingExerciseId] = useState(null)
   const toggleVisibility = (exercise) => {
-    if(editingExerciseId === exercise._id){
+    if(editingExerciseId === exercise.id){
       setEditingExerciseId(null)
     }
     else{ // editing mode
-      setEditingExerciseId(exercise._id)
+      setEditingExerciseId(exercise.id)
 
       setExerciseName(exercise.name)
       setSets(exercise.sets)
@@ -100,10 +94,9 @@ const Workouts = ({ currentUser, setCurrentUser, workouts, setWorkouts }) => {
       workouts.length === 0 ? <p>Nothing here...</p>
       :
       workouts.map(w => {
-        // for each workout get all exercises
         return(
-          <div className='workout' key={w.id}>
-            <h2>{w.name}<button onClick={() => handleDeleteWorkout(w._id)}>Delete</button></h2>
+          <div className='workout' key={w.name}>
+            <h2>{w.name}<button onClick={(event) => handleDeleteWorkout(event, w.id)}>Delete</button></h2>
                 {w.exercises.map((e, index) => {
                   return(
                     <div key={e.name}>
@@ -113,13 +106,13 @@ const Workouts = ({ currentUser, setCurrentUser, workouts, setWorkouts }) => {
                             <td>{e.name}</td>
                             <td>{e.sets} x {e.reps}</td>
                             <td>{e.weight} lbs</td>
-                            <td><button onClick={() => toggleVisibility(e)}>{editingExerciseId === e._id ? 'Cancel' : 'Edit'}</button></td>
-                            <td><button onClick={(event) => handleDeleteExercise(event, w._id, e._id)}>Delete</button></td>
+                            <td><button onClick={() => toggleVisibility(e)}>{editingExerciseId === e.id ? 'Cancel' : 'Edit'}</button></td>
+                            <td><button onClick={(event) => handleDeleteExercise(event, w.id, e.id)}>Delete</button></td>
                           </tr>
                         </tbody>
                       </table>
-                      {editingExerciseId === e._id && (
-                        <form onSubmit={(event) => handleEditExercise(event, w._id, e._id)}>
+                      {editingExerciseId === e.id && (
+                        <form onSubmit={(event) => handleEditExercise(event, w.id, e.id)}>
                           <ExerciseInput exerciseName={exerciseName} setExerciseName={setExerciseName}
                           sets={sets} setSets={setSets}
                           reps={reps} setReps={setReps}

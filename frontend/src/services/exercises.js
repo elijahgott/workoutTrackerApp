@@ -1,11 +1,11 @@
 import axios from 'axios'
 const baseUrl = '/api/exercises'
 
-let token = null
+// let token = null
 
-const setToken = newToken => {
-  token = `Bearer ${newToken}`
-}
+// const setToken = newToken => {
+//   token = `Bearer ${newToken}`
+// }
 
 const getAll = async () => {
   const res = await axios.get(baseUrl)
@@ -14,15 +14,11 @@ const getAll = async () => {
 
 const getOne = async (id) => {
   const res = await axios.get(`${baseUrl}/${id}`)
-  return res.data
+  return res.data[0]
 }
 
 const create = async newObject => {
-  const config = {
-    headers: { Authorization: token }
-  }
-
-  const res = await axios.post(baseUrl, newObject, config)
+  const res = await axios.post(baseUrl, newObject)
   return res.data
 }
 
@@ -31,4 +27,8 @@ const update = (id, newObject) => {
   return req.then(res => res.data)
 }
 
-export default { getAll, getOne, create, update, setToken }
+const deleteById = async (id) => {
+  return axios.delete(`${baseUrl}/${id}`)
+}
+
+export default { getAll, getOne, create, update, deleteById } //setToken
