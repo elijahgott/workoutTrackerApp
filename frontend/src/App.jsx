@@ -26,6 +26,7 @@ function App() {
 
   // get workouts / exercises from db whenever updated
   // should fix issue where user cant delete instantly after creating
+  // done in home, idk if im gonna need it here yet
   useEffect(() => {
 
   }, [])

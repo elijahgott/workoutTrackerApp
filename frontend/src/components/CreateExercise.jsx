@@ -55,7 +55,7 @@ const CreateExercise = ({ currentUser, setCurrentUser, workouts, setWorkouts }) 
       <form onSubmit={(event) => handleSubmit(event)}>
         <select defaultValue={''} onChange={ ({ target }) => setWorkoutName(target.value) }>
           <option value=''>Select a Workout</option>
-          {workouts.map(w => <option key={ w.name } value={ w.name }>{ w.name }</option>)}
+          {workouts.map(w => <option key={ w.id } value={ w.name }>{ w.name }</option>)}
         </select>
 
         <ExerciseInput exerciseName={exerciseName} setExerciseName={setExerciseName}

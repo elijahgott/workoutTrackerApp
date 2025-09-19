@@ -1,8 +1,10 @@
 import { useState } from 'react'
 import userService from '../services/users'
+
 import ExerciseInput from './ExerciseInput'
 
 const Workouts = ({ currentUser, setCurrentUser, workouts, setWorkouts }) => {
+
   const handleDeleteWorkout = async (id) => { // needs update before deleting recently added workout
     const user = await userService.getOne(currentUser.id)
     
@@ -98,9 +100,10 @@ const Workouts = ({ currentUser, setCurrentUser, workouts, setWorkouts }) => {
       workouts.length === 0 ? <p>Nothing here...</p>
       :
       workouts.map(w => {
+        // for each workout get all exercises
         return(
-          <div key={w.name}>
-            <h1>{w.name}<button onClick={() => handleDeleteWorkout(w._id)}>Delete</button></h1>
+          <div className='workout' key={w.id}>
+            <h2>{w.name}<button onClick={() => handleDeleteWorkout(w._id)}>Delete</button></h2>
                 {w.exercises.map((e, index) => {
                   return(
                     <div key={e.name}>
@@ -121,7 +124,6 @@ const Workouts = ({ currentUser, setCurrentUser, workouts, setWorkouts }) => {
                           sets={sets} setSets={setSets}
                           reps={reps} setReps={setReps}
                           weight={weight} setWeight={setWeight} />
-                          {/* origName={e.name} origSets={e.sets} origReps={e.reps} origWeight={e.weight} */}
                           <button type='submit'>Update</button>
                         </form>
                       )}
