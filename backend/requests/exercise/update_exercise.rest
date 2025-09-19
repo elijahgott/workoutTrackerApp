@@ -1,0 +1,11 @@
+PUT http://localhost:3001/api/exercises/68cd5b87867dbb28dc1dfb6a HTTP/1.1
+Content-Type: application/json
+
+{
+  "name": "bench press",
+  "sets": 2,
+  "reps": 10,
+  "weight": 150
+}
+
+# functions properly :)

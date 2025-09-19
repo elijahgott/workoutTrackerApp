@@ -6,7 +6,7 @@ const Exercise = require('../models/exercise')
 
 // get all users
 usersRouter.get('/', async (req, res) => {
-  const users = await User.find({}).populate('workouts')
+  const users = await User.find({}).populate('workouts', '-user')
 
   res.json(users)
 })
@@ -29,7 +29,7 @@ usersRouter.delete('/:id', (req, res) => {
     .then(() => res.status(204).end())
     .catch(e => {
       console.log('Error deleting user: ', e)
-      res.status(404).send({ error: 'Error deleting user.' })
+      res.status(404).send({ error: `Error deleting user: ${e}` })
     })
 })
 
@@ -65,7 +65,6 @@ usersRouter.put('/:id', (req, res) => {
     if(!user){
       return res.status(404).end()
     }
-    console.log(user)
 
     user.username = body.username
     user.workouts = body.workouts

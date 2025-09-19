@@ -1,0 +1,13 @@
+POST http://localhost:3001/api/exercises/ HTTP/1.1
+Content-Type: application/json
+
+{
+  "name": "Chest Fly Machine",
+  "sets": 2,
+  "reps": 10,
+  "weight": 150,
+  "workoutId": "68cd5718df4e7b9a73f360a8",
+  "userId": "68cd51ea1e8d03ceaea3f9ae"
+}
+
+# functions properly

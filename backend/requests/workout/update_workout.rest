@@ -1,0 +1,8 @@
+PUT http://localhost:3001/api/workouts/68cd5718df4e7b9a73f360a8 HTTP/1.1
+Content-Type: application/json
+
+{
+  "name": "push day"
+}
+
+# functions properly :)

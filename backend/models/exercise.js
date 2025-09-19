@@ -18,6 +18,10 @@ const exerciseSchema = new mongoose.Schema({
     type: Number,
     reqiured: true
   },
+  workout: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Workout'
+  },
   user: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User'

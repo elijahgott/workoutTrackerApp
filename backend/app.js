@@ -10,6 +10,8 @@ require('dotenv').config()
 
 const loginRouter = require('./controllers/login')
 const usersRouter = require('./controllers/users')
+const workoutsRouter = require('./controllers/workouts')
+const exercisesRouter = require('./controllers/exercises')
 
 mongoose.set('strictQuery', false)
 
@@ -30,6 +32,8 @@ app.use(middleware.requestLogger)
 
 app.use('/api/login', loginRouter)
 app.use('/api/users', usersRouter)
+app.use('/api/workouts', workoutsRouter)
+app.use('/api/exercises', exercisesRouter)
 
 app.use(middleware.unknownEndpoint)
 app.use(middleware.errorHandler)
