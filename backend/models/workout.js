@@ -1,31 +1,30 @@
 const mongoose = require('mongoose')
 
-const userSchema = new mongoose.Schema({
-  username: {
+const workoutSchema = new mongoose.Schema({
+  name: {
     type: String,
     required: true,
-    unique: true,
     minlength: 3
   },
-  passwordHash: String,
-  workouts: [
+  exercises: [
     {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'Workout'
+      ref: 'Exercise'
     }
-  ]
+  ],
+  user: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User'
+  }
 })
 
-userSchema.set('toJSON', {
+workoutSchema.set('toJSON', {
   transform: (document, returnedObject) => {
     returnedObject.id = returnedObject._id.toString()
     delete returnedObject._id
     delete returnedObject.__v
-    // password hash should not be revealed
-    delete returnedObject.passwordHash
   }
 })
 
-const User = mongoose.model('User', userSchema)
+module.exports = mongoose.model('Workout', workoutSchema)
 
-module.exports = User

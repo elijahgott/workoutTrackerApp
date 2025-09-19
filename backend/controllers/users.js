@@ -1,15 +1,14 @@
 const bcrypt = require('bcrypt')
 const usersRouter = require('express').Router()
 const User = require('../models/user')
+const Workout = require('../models/workout')
+const Exercise = require('../models/exercise')
 
 // get all users
-usersRouter.get('/', (req, res) => {
-  User.find({})
-    .then((users) => res.json(users))
-    .catch((e) => {
-      console.log('Unable to fetch users: ', e)
-      res.status(404).end()
-    })
+usersRouter.get('/', async (req, res) => {
+  const users = await User.find({}).populate('workouts')
+
+  res.json(users)
 })
 
 // get specific user
@@ -48,7 +47,7 @@ usersRouter.post('/', async (req, res) => {
   const user = new User({
     username,
     passwordHash,
-    workouts: req.body.workouts || [],
+    workouts: [],
   })
 
   const savedUser = await user.save()
