@@ -1,1 +1,2 @@
 # workoutTrackerApp
+This is an app to help people keep track of their progress in their workouts. Users can create a workout, for example "Chest Day", and add exercises to that workout. Exercises consist of a name, number of sets, number of reps, and amount of weight, so as users improve their strength, they will easily be able to update their exercises to track their progress.
