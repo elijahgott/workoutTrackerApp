@@ -1,27 +1,36 @@
 import { useState } from 'react'
+import userService from '../services/users'
 import workoutService from '../services/workouts'
 import exerciseService from '../services/exercises'
 
 import ExerciseInput from './ExerciseInput'
 
-const Workouts = ({ fetchWorkouts, workouts, setWorkouts }) => {
+const Workouts = ({ fetchWorkouts, currentUser, workouts, setWorkouts }) => {
 
-  const handleDeleteWorkout = async (event, workoutId) => { // needs update before deleting recently added workout
+  const handleDeleteWorkout = async (event, workoutId) => {
     event.preventDefault()
 
     const workout = await workoutService.getOne(workoutId)
+    const exercisesToRemove = workout[0].exercises
     if(window.confirm(`Are you sure you want to delete workout: ${workout[0].name}?`)){
       const deleteWorkout = await workoutService.deleteById(workoutId)
       if(deleteWorkout.status !== 204){
         console.log('Error deleting workout.')
       }
+      const user = await userService.getOne(currentUser.id)
+      user.workouts = user.workouts.filter(w => w !== workoutId)
+      await userService.update(user.id, user)
+
       const updatedWorkouts = workouts.filter(w => w.id !== workoutId)
+
+      exercisesToRemove.forEach(e => exerciseService.deleteById(e.id))
+
       setWorkouts(updatedWorkouts)
       setTimeout(() => fetchWorkouts(), 1000)
     }
   }
 
-  const handleDeleteExercise = async (event, workoutId, exerciseId) => { // needs update before deleting recently added workout
+  const handleDeleteExercise = async (event, workoutId, exerciseId) => {
     event.preventDefault()
     const deleteExercise = await exerciseService.deleteById(exerciseId)
     if(deleteExercise.status !== 204){

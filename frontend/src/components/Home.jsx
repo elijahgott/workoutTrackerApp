@@ -26,7 +26,7 @@ const Home = ({ currentUser, setCurrentUser }) => {
         <li>sort workouts or search workouts</li>
       </ul>
       <h1>Welcome {currentUser.username}!</h1>
-      <Workouts fetchWorkouts={fetchWorkouts} currentUser={currentUser} setCurrentUser={setCurrentUser} workouts={workouts} setWorkouts={setWorkouts} />
+      <Workouts fetchWorkouts={fetchWorkouts} currentUser={currentUser} workouts={workouts} setWorkouts={setWorkouts} />
       <CreateWorkout fetchWorkouts={fetchWorkouts} currentUser={currentUser} setCurrentUser={setCurrentUser} workouts={workouts} setWorkouts={setWorkouts} />
       {workouts.length === 0 ? null 
       :

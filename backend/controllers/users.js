@@ -66,6 +66,8 @@ usersRouter.put('/:id', (req, res) => {
       return res.status(404).end()
     }
 
+    console.log(body.username, body.workouts)
+
     user.username = body.username
     user.workouts = body.workouts
 
