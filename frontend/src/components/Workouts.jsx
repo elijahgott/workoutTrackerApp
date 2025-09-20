@@ -9,13 +9,16 @@ const Workouts = ({ fetchWorkouts, workouts, setWorkouts }) => {
   const handleDeleteWorkout = async (event, workoutId) => { // needs update before deleting recently added workout
     event.preventDefault()
 
-    const deleteWorkout = await workoutService.deleteById(workoutId)
-    if(deleteWorkout.status !== 204){
-      console.log('Error deleting workout.')
+    const workout = await workoutService.getOne(workoutId)
+    if(window.confirm(`Are you sure you want to delete workout: ${workout[0].name}?`)){
+      const deleteWorkout = await workoutService.deleteById(workoutId)
+      if(deleteWorkout.status !== 204){
+        console.log('Error deleting workout.')
+      }
+      const updatedWorkouts = workouts.filter(w => w.id !== workoutId)
+      setWorkouts(updatedWorkouts)
+      setTimeout(() => fetchWorkouts(), 1000)
     }
-    const updatedWorkouts = workouts.filter(w => w.id !== workoutId)
-    setWorkouts(updatedWorkouts)
-    setTimeout(() => fetchWorkouts(), 1000)
   }
 
   const handleDeleteExercise = async (event, workoutId, exerciseId) => { // needs update before deleting recently added workout
