@@ -2,6 +2,7 @@ import { useState } from 'react'
 import exerciseService from '../services/exercises'
 
 import ExerciseInput from './ExerciseInput'
+import Notification from './Notification'
 
 const CreateExercise = ({ fetchWorkouts, currentUser, workouts, setWorkouts }) => {
   const [workoutId, setWorkoutId] = useState('')
@@ -10,6 +11,7 @@ const CreateExercise = ({ fetchWorkouts, currentUser, workouts, setWorkouts }) =
   const [reps, setReps] = useState('')
   const [weight, setWeight] = useState('')
 
+  const [notificationMessage, setNotificationMessage] = useState(null)
 
   const handleSubmit = async (event) => {
     event.preventDefault()
@@ -39,10 +41,16 @@ const CreateExercise = ({ fetchWorkouts, currentUser, workouts, setWorkouts }) =
       setReps('')
       setWeight('')
 
+      setNotificationMessage('Successfully created exercise.')
+
+      setTimeout(() => setNotificationMessage(null), 3000)
+
       setTimeout(() => fetchWorkouts(), 1000)
     }
     else{
-      console.error('Error submitting exercise.')
+      setNotificationMessage('Error submitting exercise.')
+
+      setTimeout(() => setNotificationMessage(null), 3000)
     }
   }
 
@@ -62,6 +70,7 @@ const CreateExercise = ({ fetchWorkouts, currentUser, workouts, setWorkouts }) =
         
         <button type='submit'>Add Exercise</button>
       </form>
+      <Notification message={notificationMessage} />
     </>
   )
 }

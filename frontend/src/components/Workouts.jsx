@@ -4,8 +4,10 @@ import workoutService from '../services/workouts'
 import exerciseService from '../services/exercises'
 
 import ExerciseInput from './ExerciseInput'
+import Notification from './Notification'
 
 const Workouts = ({ fetchWorkouts, currentUser, workouts, setWorkouts }) => {
+  const [notificationMessage, setNotificationMessage] = useState(null)
 
   const handleDeleteWorkout = async (event, workoutId) => {
     event.preventDefault()
@@ -15,7 +17,9 @@ const Workouts = ({ fetchWorkouts, currentUser, workouts, setWorkouts }) => {
     if(window.confirm(`Are you sure you want to delete workout: ${workout[0].name}?`)){
       const deleteWorkout = await workoutService.deleteById(workoutId)
       if(deleteWorkout.status !== 204){
-        console.log('Error deleting workout.')
+        setNotificationMessage('Error deleting workout.')
+
+        setTimeout(() => setNotificationMessage(null), 3000)
       }
       const user = await userService.getOne(currentUser.id)
       user.workouts = user.workouts.filter(w => w !== workoutId)
@@ -34,7 +38,9 @@ const Workouts = ({ fetchWorkouts, currentUser, workouts, setWorkouts }) => {
     event.preventDefault()
     const deleteExercise = await exerciseService.deleteById(exerciseId)
     if(deleteExercise.status !== 204){
-      console.log('Error deleting exercise.')
+      setNotificationMessage('Error deleting exercise.')
+
+      setTimeout(() => setNotificationMessage(null), 3000)
     }
     const workout = workouts.find(w => w.id === workoutId)
     const updatedExercises = workout.exercises.filter(e => e.id !== exerciseId)
@@ -54,10 +60,6 @@ const Workouts = ({ fetchWorkouts, currentUser, workouts, setWorkouts }) => {
 
   const handleEditExercise = async (event, workoutId, exerciseId) => {
     event.preventDefault()
-
-    if(!(exerciseName && sets && reps && weight)){
-      console.log('One or more fields is empty.')
-    }
 
     const workout = workouts.find(w => w.id === workoutId)
     const exercise = await exerciseService.getOne(exerciseId)
@@ -102,6 +104,7 @@ const Workouts = ({ fetchWorkouts, currentUser, workouts, setWorkouts }) => {
   return(
     <>
       <h1>My Workouts</h1>
+      <Notification message={notificationMessage} />
       {
       workouts.length === 0 ? <p>Nothing here...</p>
       :
