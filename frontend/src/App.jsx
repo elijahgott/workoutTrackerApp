@@ -1,3 +1,5 @@
+import styled, { createGlobalStyle } from 'styled-components'
+
 import { useState, useEffect } from 'react'
 // import { Routes, Route } from 'react-router'
 
@@ -8,7 +10,21 @@ import Login from './components/Login'
 import Home from './components/Home'
 // import CreateNew from './components/CreateNew'
 
+// styles
+const GlobalStyle = createGlobalStyle`
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+`
+
+const AppStyle = styled.div`
+  margin: 16px;
+`
+
 function App() {
+
   const [currentUser, setCurrentUser] = useState(null)
 
   // get currently logged in user
@@ -32,13 +48,24 @@ function App() {
   }, [])
 
   if(!currentUser){
-    return(<Login setCurrentUser={setCurrentUser} />)
+    return(
+      <>
+        <GlobalStyle />
+        <AppStyle>
+          <Login setCurrentUser={setCurrentUser} />
+        </AppStyle>
+      </>
+      
+    )
   }
 
   return (
     <>
-      <NavigationBar currentUser={currentUser} setCurrentUser={setCurrentUser} />
-      <Home currentUser={currentUser} setCurrentUser={setCurrentUser} />
+      <GlobalStyle />
+      <AppStyle>
+        <NavigationBar currentUser={currentUser} setCurrentUser={setCurrentUser} />
+        <Home currentUser={currentUser} setCurrentUser={setCurrentUser} />
+      </AppStyle>
     </>
   )
 }

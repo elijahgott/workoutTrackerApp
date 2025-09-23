@@ -1,3 +1,5 @@
+import styled from 'styled-components'
+
 import { useState } from 'react'
 import userService from '../services/users'
 import workoutService from '../services/workouts'
@@ -5,6 +7,20 @@ import exerciseService from '../services/exercises'
 
 import ExerciseInput from './ExerciseInput'
 import Notification from './Notification'
+
+// styles
+const Grid = styled.div`
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  grid-gap: 8px;
+`
+
+const Workout = styled.div`
+  border: 4px solid black;
+  border-radius: 8px;
+  backdrop-filter: blur(10px);
+  padding: 8px;
+`
 
 const Workouts = ({ fetchWorkouts, currentUser, workouts, setWorkouts }) => {
   const [notificationMessage, setNotificationMessage] = useState(null)
@@ -108,39 +124,42 @@ const Workouts = ({ fetchWorkouts, currentUser, workouts, setWorkouts }) => {
       {
       workouts.length === 0 ? <p>Nothing here...</p>
       :
-      workouts.map(w => {
-        return(
-          <div className='workout' key={w.name}>
-            <h2>{w.name}<button onClick={(event) => handleDeleteWorkout(event, w.id)}>Delete</button></h2>
-                {w.exercises.map((e, index) => {
-                  return(
-                    <div key={e.name}>
-                      <table>
-                        <tbody>
-                          <tr key={index}>
-                            <td>{e.name}</td>
-                            <td>{e.sets} x {e.reps}</td>
-                            <td>{e.weight} lbs</td>
-                            <td><button onClick={() => toggleVisibility(e)}>{editingExerciseId === e.id ? 'Cancel' : 'Edit'}</button></td>
-                            <td><button onClick={(event) => handleDeleteExercise(event, w.id, e.id)}>Delete</button></td>
-                          </tr>
-                        </tbody>
-                      </table>
-                      {editingExerciseId === e.id && (
-                        <form onSubmit={(event) => handleEditExercise(event, w.id, e.id)}>
-                          <ExerciseInput exerciseName={exerciseName} setExerciseName={setExerciseName}
-                          sets={sets} setSets={setSets}
-                          reps={reps} setReps={setReps}
-                          weight={weight} setWeight={setWeight} />
-                          <button type='submit'>Update</button>
-                        </form>
-                      )}
-                    </div>
-                  )
-                })}
-          </div>
-        )
-      })}
+      <Grid>
+        {workouts.map(w => {
+          return(
+            <Workout key={w.name}>
+              <h2>{w.name}<button onClick={(event) => handleDeleteWorkout(event, w.id)}>Delete</button></h2>
+                  {w.exercises.map((e, index) => {
+                    return(
+                      <div key={e.name}>
+                        <table>
+                          <tbody>
+                            <tr key={index}>
+                              <td>{e.name}</td>
+                              <td>{e.sets} x {e.reps}</td>
+                              <td>{e.weight} lbs</td>
+                              <td><button onClick={() => toggleVisibility(e)}>{editingExerciseId === e.id ? 'Cancel' : 'Edit'}</button></td>
+                              <td><button onClick={(event) => handleDeleteExercise(event, w.id, e.id)}>Delete</button></td>
+                            </tr>
+                          </tbody>
+                        </table>
+                        {editingExerciseId === e.id && (
+                          <form onSubmit={(event) => handleEditExercise(event, w.id, e.id)}>
+                            <ExerciseInput exerciseName={exerciseName} setExerciseName={setExerciseName}
+                            sets={sets} setSets={setSets}
+                            reps={reps} setReps={setReps}
+                            weight={weight} setWeight={setWeight} />
+                            <button type='submit'>Update</button>
+                          </form>
+                        )}
+                      </div>
+                    )
+                  })}
+            </Workout>
+          )
+        })}
+        </Grid>
+      }
     </>
   )
 }
