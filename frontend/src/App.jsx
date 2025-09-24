@@ -16,11 +16,13 @@ const GlobalStyle = createGlobalStyle`
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    font-family: Inter, Roboto, 'Helvetica Neue', 'Arial Nova', 'Nimbus Sans', Arial, sans-serif;
   }
 `
 
 const AppStyle = styled.div`
-  margin: 16px;
+  height: 100dvh;
+  padding: 12px;
 `
 
 function App() {
