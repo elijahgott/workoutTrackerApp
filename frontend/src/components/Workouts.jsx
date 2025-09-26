@@ -18,7 +18,7 @@ const Grid = styled.div`
 `
 
 const Input = styled.input`
-  padding: 4px;
+  padding: 8px;
   margin: 4px;
   border: none;
   border-bottom: 2px solid black;
@@ -61,8 +61,8 @@ const Workouts = ({ fetchWorkouts, currentUser, workouts, setWorkouts }) => {
 
   return(
     <Container>
-      <h2 style={{ marginTop: 16 }}>My Workouts</h2>
-      <div style={{display: 'flex', justifyContent: 'space-between', marginTop: 8, marginBottom: 8 }}>
+      <h2 style={{ marginTop: 16, marginLeft: 8 }}>My Workouts</h2>
+      <div style={{display: 'flex', justifyContent: 'space-between', marginTop: 8, marginBottom: 8, marginLeft: 4 }}>
         <Input type='text' value={searchFor} onChange={({ target }) => setSearchFor(target.value)} placeholder='Search Workouts' />
         <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center'}}>
           <label htmlFor='sortBtn'>Sort:</label>

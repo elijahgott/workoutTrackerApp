@@ -13,6 +13,15 @@ const Container = styled.div`
   max-width: 1200px; 
 `
 
+const AddNewContainer = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  margin: 20px;
+  background: linear-gradient(90deg,rgba(131, 58, 180, 1) 0%, rgba(253, 29, 29, 1) 50%, rgba(252, 176, 69, 1) 100%);
+  border-radius: 16px;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+`
+
 
 const Home = ({ currentUser, setCurrentUser }) => {
   const [workouts, setWorkouts] = useState([])
@@ -28,12 +37,14 @@ const Home = ({ currentUser, setCurrentUser }) => {
   
   return(
     <Container>
+      <AddNewContainer>
+        <CreateWorkout fetchWorkouts={fetchWorkouts} currentUser={currentUser} setCurrentUser={setCurrentUser} workouts={workouts} setWorkouts={setWorkouts} />
+        {workouts.length === 0 ? null 
+        :
+        <CreateExercise fetchWorkouts={fetchWorkouts} currentUser={currentUser} setCurrentUser={setCurrentUser} workouts={workouts} setWorkouts={setWorkouts} />
+        }
+      </AddNewContainer>
       <Workouts fetchWorkouts={fetchWorkouts} currentUser={currentUser} workouts={workouts} setWorkouts={setWorkouts} />
-      <CreateWorkout fetchWorkouts={fetchWorkouts} currentUser={currentUser} setCurrentUser={setCurrentUser} workouts={workouts} setWorkouts={setWorkouts} />
-      {workouts.length === 0 ? null 
-      :
-      <CreateExercise fetchWorkouts={fetchWorkouts} currentUser={currentUser} setCurrentUser={setCurrentUser} workouts={workouts} setWorkouts={setWorkouts} />
-      }
     </Container>
   )
 }

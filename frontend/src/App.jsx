@@ -21,7 +21,7 @@ const GlobalStyle = createGlobalStyle`
 `
 
 const AppStyle = styled.div`
-  height: 100dvh;
+  min-height: 100dvh;
   padding: 12px;
 `
 

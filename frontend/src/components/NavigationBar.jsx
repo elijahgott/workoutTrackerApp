@@ -7,6 +7,7 @@ const NavBorder = styled.div`
   padding: 4px;
   border-radius: 20px;
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  width: 97%;
   max-width: 1200px;
 `
 
@@ -49,8 +50,8 @@ const NavigationBar = ({ currentUser, setCurrentUser }) => {
     <NavBorder>
       <NavBar>
         <NavItems>
-          <h1 style={{ fontSize: 24 , fontWeight: 800, marginLeft: 4 }}>Workout Tracker</h1>
-          <p style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>Signed in as: <strong>{currentUser.username}</strong>
+          <h1 style={{ fontSize: 20, fontWeight: 800, marginLeft: 4 }}>Workout Tracker</h1>
+          <p style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 16 }}><strong>{currentUser.username}</strong>
             <Button onClick={() => {
               window.localStorage.removeItem('loggedInWorkoutAppUser')
               setCurrentUser(null)

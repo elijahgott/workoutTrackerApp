@@ -1,8 +1,55 @@
+import styled from 'styled-components'
+import { MdAdd } from 'react-icons/md'
+
 import { useState } from 'react'
 // import userService from '../services/users'
 import workoutService from '../services/workouts'
 
 import Notification from './Notification'
+
+// styles
+const Container = styled.div`
+  width: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  background-color: transpareant;
+  border-radius: 16px;
+  padding: 48px;
+  padding-bottom: 40px;
+`
+
+const Form = styled.form`
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+`
+
+const Input = styled.input`
+  padding: 8px;
+  margin: 4px;
+  border: 1px solid white;
+  border-radius: 8px;
+`
+
+const Button = styled.button`
+  aspect-ratio: 1 / 1;
+  height: 100%;
+  max-height: 28px;
+  max-width: 28px;
+  padding: 4px;
+  margin: 4px;
+  border: none;
+  border-radius: 50%;
+  background-color: white;
+  font-size: 20px;
+  transition: 0.3s;
+
+  &:hover{
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  }
+`
 
 const CreateWorkout = ({ fetchWorkouts, currentUser, workouts, setWorkouts }) => {
   const [workoutName, setWorkoutName] = useState('')
@@ -37,14 +84,14 @@ const CreateWorkout = ({ fetchWorkouts, currentUser, workouts, setWorkouts }) =>
   }
 
   return(
-    <>
-      <h1>Add New Workout</h1>
-      <form onSubmit={handleSubmit}>
-        <input id='workoutname' name="workoutname" type="text" value={workoutName} onChange={({target}) => setWorkoutName(target.value)} placeholder="Workout Name (Push, Legs, ...)" required />
-        <button type="submit">Add Workout</button>
-      </form>
+    <Container>
+      <h2 style={{ color: 'white', textShadow: '1px 1px 5px black', paddingRight: 28 }}>New Workout</h2>
+      <Form onSubmit={handleSubmit}>
+        <Input id='workoutname' name="workoutname" type="text" value={workoutName} onChange={({target}) => setWorkoutName(target.value)} placeholder="Workout Name (e.g. Legs)" required />
+        <Button type="submit"><MdAdd style={{ fontSize: 20 }}/></Button>
+      </Form>
       <Notification message={notificationMessage} />
-    </>
+    </Container>
   )
 }
 

@@ -1,6 +1,14 @@
 import styled from "styled-components"
 
 // styles
+const Container = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+`
+
 const Row = styled.div`
   display: flex;
   width: 100%;
@@ -9,10 +17,11 @@ const Row = styled.div`
 `
 
 const Input = styled.input`
-  padding: 4px;
+  width: 100%;
+  padding: 8px;
   margin: 4px;
-  border: none;
-  border-bottom: 2px solid black;
+  border: 1px solid white;
+  border-radius: 8px;
 `
 
 const ExerciseInput = ({ exerciseName, setExerciseName,
@@ -22,27 +31,23 @@ const ExerciseInput = ({ exerciseName, setExerciseName,
     }) => {
 
     return(
-        <>
+        <Container>
           <Row>
-            <label htmlFor='exercisename'>Exercise Name:</label>
-            <Input type="text" id='exercisename' name='exercisename' value={exerciseName} onChange={({target}) => setExerciseName(target.value)} required />
+            <Input type="text" id='exercisename' name='exercisename' value={exerciseName} onChange={({target}) => setExerciseName(target.value)} placeholder="Exercise Name (e.g. Squat)" required />
           </Row>
             
           <Row>
-            <label htmlFor='sets'>No. of Sets:</label>
-            <Input type="number" name='sets' id='sets' value={sets} onChange={({target}) => setSets(target.value)} required />
+            <Input type="number" name='sets' id='sets' value={sets} onChange={({target}) => setSets(target.value)} placeholder="# of Sets" required />
           </Row>
 
           <Row>
-            <label htmlFor='reps'>No. of Reps:</label>
-            <Input type="number" name='reps' id='reps' value={reps} onChange={({target}) => setReps(target.value)} required />
+            <Input type="number" name='reps' id='reps' value={reps} onChange={({target}) => setReps(target.value)} placeholder="# of Reps" required />
           </Row>
 
           <Row>
-            <label htmlFor='weight'>Weight (in lbs):</label>
-            <Input type="number" name='weight' id='weight' value={weight} onChange={({target}) => setWeight(target.value)} required />
+            <Input type="number" name='weight' id='weight' value={weight} onChange={({target}) => setWeight(target.value)} placeholder="Weight (in lbs)" required />
           </Row>
-        </>
+        </Container>
     )
 }
 

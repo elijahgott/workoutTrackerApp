@@ -29,8 +29,14 @@ const StyledExercise = styled.div`
 `
 
 const Form = styled.form`
+  margin-top: 4px;
+  padding: 8px;
   display: flex;
   flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(90deg,rgba(131, 58, 180, 1) 0%, rgba(253, 29, 29, 1) 50%, rgba(252, 176, 69, 1) 100%);
+  border-radius: 8px;
 `
 
 const Button = styled.button`
@@ -41,7 +47,7 @@ const Button = styled.button`
   padding: 4px;
   border: none;
   border-radius: 50%;
-  background-color: transparent;
+  background-color: white;
   font-size: 16px;
   transition: 0.3s;
 
@@ -154,12 +160,18 @@ const Workout = ({ workout, workouts, setWorkouts, currentUser, setNotificationM
             <StyledExercise key={e.name}>
               <div style={{ display: 'flex'}}>
                 <div style={{ display: 'grid', gridTemplateColumns: '33% 33% 33%', width: '80%', marginRight: 8 }} key={index}>
-                  <p><strong>{e.name}</strong></p>
-                  <p style={{ margin: '0 auto' }}>{e.sets} x {e.reps}</p>
-                  <p style={{ marginRight: 0, marginLeft: 'auto' }}>{e.weight} lbs</p>
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'left' }}>
+                    <p><strong>{e.name}</strong></p>
+                  </div>
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    <p style={{ margin: '0 auto' }}>{e.sets} x {e.reps}</p>
+                  </div>
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    <p style={{ marginRight: 0, marginLeft: 'auto' }}>{e.weight} lbs</p>
+                  </div>
                 </div>
 
-                <div style={{ display: 'flex', flexWrap: 'nowrap', width: '15%'}}>
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'right'}}>
                   <Button onClick={() => toggleVisibility(e)}>{editingExerciseId === e.id ? <MdOutlineCancel style={{ fontSize: 20 }} /> : <MdOutlineEdit style={{ fontSize: 20, margin: 0 }} />}</Button>
                   <Button onClick={(event) => handleDeleteExercise(event, workout.id, e.id)}><MdDeleteOutline style={{ fontSize: 20, margin: 0 }}/></Button>
                 </div>
@@ -171,7 +183,7 @@ const Workout = ({ workout, workouts, setWorkouts, currentUser, setNotificationM
                   sets={sets} setSets={setSets}
                   reps={reps} setReps={setReps}
                   weight={weight} setWeight={setWeight} />
-                  <Button style={{ margin: '0 auto' }} type='submit'><MdCheck style={{ fontSize: 20 }} /></Button>
+                  <Button style={{ margin: '4px auto' }} type='submit'><MdCheck style={{ fontSize: 20 }} /></Button>
                 </Form>
               )}
             </StyledExercise>
