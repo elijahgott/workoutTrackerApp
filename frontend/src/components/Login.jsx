@@ -14,6 +14,7 @@ const ContainerBorder = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 `
 
 const Container = styled.div`
@@ -25,6 +26,7 @@ const Container = styled.div`
   background-color: white;
   border-radius: 16px;
   padding: 48px;
+  padding-bottom: 40px;
 `
 
 const Form = styled.form`

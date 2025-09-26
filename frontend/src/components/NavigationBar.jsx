@@ -3,8 +3,11 @@ import { MdLogout } from 'react-icons/md'
 
 const NavBorder = styled.div`
   background: linear-gradient(90deg,rgba(131, 58, 180, 1) 0%, rgba(253, 29, 29, 1) 50%, rgba(252, 176, 69, 1) 100%);
+  margin: 0 auto;
   padding: 4px;
   border-radius: 20px;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  max-width: 1200px;
 `
 
 const NavBar = styled.div`
@@ -19,7 +22,7 @@ const NavBar = styled.div`
 
 const NavItems = styled.div`
   width: 100%;
-  max-width: 1400px;
+  max-width: 1200px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -46,7 +49,7 @@ const NavigationBar = ({ currentUser, setCurrentUser }) => {
     <NavBorder>
       <NavBar>
         <NavItems>
-          <p style={{ fontSize: 24 }}><strong>Workout Tracker</strong></p>
+          <h1 style={{ fontSize: 24 , fontWeight: 800, marginLeft: 4 }}>Workout Tracker</h1>
           <p style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>Signed in as: <strong>{currentUser.username}</strong>
             <Button onClick={() => {
               window.localStorage.removeItem('loggedInWorkoutAppUser')

@@ -8,16 +8,36 @@ import exerciseService from '../services/exercises'
 
 import ExerciseInput from './ExerciseInput'
 
+const WorkoutBorder = styled.div`
+  background: linear-gradient(90deg,rgba(131, 58, 180, 1) 0%, rgba(253, 29, 29, 1) 50%, rgba(252, 176, 69, 1) 100%);
+  padding: 4px;
+  border-radius: 20px;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+`
+
 const StyledWorkout = styled.div`
-  border: 4px solid black;
-  border-radius: 8px;
-  backdrop-filter: blur(10px);
-  padding: 8px;
+  border-radius: 16px;
+  background-color: white;
+  padding: 16px;
+  height: 100%;
+`
+
+const StyledExercise = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin: 8px;
+`
+
+const Form = styled.form`
+  display: flex;
+  flex-direction: column;
 `
 
 const Button = styled.button`
   aspect-ratio: 1 / 1;
   height: 100%;
+  max-height: 28px;
+  max-width: 28px;
   padding: 4px;
   border: none;
   border-radius: 50%;
@@ -126,35 +146,39 @@ const Workout = ({ workout, workouts, setWorkouts, currentUser, setNotificationM
 
 
   return(
-    <StyledWorkout>
-      <h2 style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>{workout.name}<Button onClick={(event) => handleDeleteWorkout(event, workout.id)}><MdDeleteOutline style={{fontSize: 20}} /></Button></h2>
-      {workout.exercises.map((e, index) => {
-        return(
-          <div key={e.name}>
-            <table>
-              <tbody>
-                <tr key={index}>
-                  <td>{e.name}</td>
-                  <td>{e.sets} x {e.reps}</td>
-                  <td>{e.weight} lbs</td>
-                  <td><Button onClick={() => toggleVisibility(e)}>{editingExerciseId === e.id ? <MdOutlineCancel style={{ fontSize: 20 }} /> : <MdOutlineEdit style={{ fontSize: 20, margin: 0 }} />}</Button></td>
-                  <td><Button onClick={(event) => handleDeleteExercise(event, workout.id, e.id)}><MdDeleteOutline style={{ fontSize: 20, margin: 0 }}/></Button></td>
-                </tr>
-              </tbody>
-            </table>
-            {editingExerciseId === e.id && (
-              <form onSubmit={(event) => handleEditExercise(event, workout.id, e.id)}>
-                <ExerciseInput exerciseName={exerciseName} setExerciseName={setExerciseName}
-                sets={sets} setSets={setSets}
-                reps={reps} setReps={setReps}
-                weight={weight} setWeight={setWeight} />
-                <Button type='submit'><MdCheck style={{ fontSize: 20 }} /></Button>
-              </form>
-            )}
-          </div>
-        )
-      })}
-    </StyledWorkout>
+    <WorkoutBorder>
+      <StyledWorkout>
+        <h2 style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>{workout.name}<Button onClick={(event) => handleDeleteWorkout(event, workout.id)}><MdDeleteOutline style={{fontSize: 20}} /></Button></h2>
+        {workout.exercises.map((e, index) => {
+          return(
+            <StyledExercise key={e.name}>
+              <div style={{ display: 'flex'}}>
+                <div style={{ display: 'grid', gridTemplateColumns: '33% 33% 33%', width: '80%', marginRight: 8 }} key={index}>
+                  <p><strong>{e.name}</strong></p>
+                  <p style={{ margin: '0 auto' }}>{e.sets} x {e.reps}</p>
+                  <p style={{ marginRight: 0, marginLeft: 'auto' }}>{e.weight} lbs</p>
+                </div>
+
+                <div style={{ display: 'flex', flexWrap: 'nowrap', width: '15%'}}>
+                  <Button onClick={() => toggleVisibility(e)}>{editingExerciseId === e.id ? <MdOutlineCancel style={{ fontSize: 20 }} /> : <MdOutlineEdit style={{ fontSize: 20, margin: 0 }} />}</Button>
+                  <Button onClick={(event) => handleDeleteExercise(event, workout.id, e.id)}><MdDeleteOutline style={{ fontSize: 20, margin: 0 }}/></Button>
+                </div>
+              </div>
+      
+              {editingExerciseId === e.id && (
+                <Form onSubmit={(event) => handleEditExercise(event, workout.id, e.id)}>
+                  <ExerciseInput exerciseName={exerciseName} setExerciseName={setExerciseName}
+                  sets={sets} setSets={setSets}
+                  reps={reps} setReps={setReps}
+                  weight={weight} setWeight={setWeight} />
+                  <Button style={{ margin: '0 auto' }} type='submit'><MdCheck style={{ fontSize: 20 }} /></Button>
+                </Form>
+              )}
+            </StyledExercise>
+          )
+        })}
+      </StyledWorkout>
+    </WorkoutBorder>
   )
 }
 

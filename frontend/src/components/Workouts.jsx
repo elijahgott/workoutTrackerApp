@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import { MdOutlineSortByAlpha, MdDateRange } from 'react-icons/md'
 
 import { useState } from 'react'
 
@@ -6,17 +7,30 @@ import Notification from './Notification'
 import Workout from './Workout'
 
 // styles
+const Container = styled.div`
+  margin: 16px;
+`
+
 const Grid = styled.div`
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
   grid-gap: 8px;
 `
 
-const Button = styled.button`
-  aspect-ratio: 1 / 1;
-  height: fit-content;
+const Input = styled.input`
   padding: 4px;
   margin: 4px;
+  border: none;
+  border-bottom: 2px solid black;
+`
+
+const Button = styled.button`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  aspect-ratio: 1 / 1;
+  height: 100%;
+  padding: 4px;
   border: none;
   border-radius: 50%;
   background-color: transparent;
@@ -31,6 +45,7 @@ const Button = styled.button`
 const Workouts = ({ fetchWorkouts, currentUser, workouts, setWorkouts }) => {
   const [notificationMessage, setNotificationMessage] = useState(null)
 
+  const [searchFor, setSearchFor] = useState('')
   const [sortType, setSortType] = useState('None')
 
   const sortedWorkouts = workouts.toSorted((a, b) => a.name.localeCompare(b.name))
@@ -45,28 +60,35 @@ const Workouts = ({ fetchWorkouts, currentUser, workouts, setWorkouts }) => {
   }
 
   return(
-    <>
-      <h1>My Workouts</h1>
-      <label htmlFor='sortBtn'>Sort By:<Button id='sortBtn' onClick={handleChangeSortType}>{sortType}</Button></label>
+    <Container>
+      <h2 style={{ marginTop: 16 }}>My Workouts</h2>
+      <div style={{display: 'flex', justifyContent: 'space-between', marginTop: 8, marginBottom: 8 }}>
+        <Input type='text' value={searchFor} onChange={({ target }) => setSearchFor(target.value)} placeholder='Search Workouts' />
+        <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center'}}>
+          <label htmlFor='sortBtn'>Sort:</label>
+          <Button style={{ marginLeft: 4 }} id='sortBtn' onClick={handleChangeSortType}>{sortType === 'None' ? <MdDateRange style={{ fontSize: 20 }} /> : <MdOutlineSortByAlpha style={{ fontSize: 20 }} />}</Button>
+        </div>
+      </div>
+  
       <Notification message={notificationMessage} />
       {
       workouts.length === 0 ? <p>Nothing here...</p>
       :
       <Grid>
         {sortType === 'None' 
-        ? workouts.map(w => {
+        ? workouts.filter(w => w.name.toLowerCase().includes(searchFor.toLowerCase())).map(w => {
           return(
             <Workout key={w.name} workout={w} workouts={workouts} setWorkouts={setWorkouts} currentUser={currentUser} setNotificationMessage={setNotificationMessage} fetchWorkouts={fetchWorkouts} />
           )
         })
-        : sortedWorkouts.map(w => {
+        : sortedWorkouts.filter(w => w.name.toLowerCase().includes(searchFor.toLowerCase())).map(w => {
           return(
             <Workout key={w.name} workout={w} workouts={workouts} setWorkouts={setWorkouts} currentUser={currentUser} setNotificationMessage={setNotificationMessage} fetchWorkouts={fetchWorkouts} />
           )
         })}
         </Grid>
       }
-    </>
+    </Container>
   )
 }
 
