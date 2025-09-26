@@ -1,6 +1,59 @@
+import styled from 'styled-components'
+
 import { useState } from 'react'
 import loginService from '../services/login'
 import userService from '../services/users'
+
+const ContainerBorder = styled.div`
+  margin: 24px auto;
+  background: linear-gradient(90deg,rgba(131, 58, 180, 1) 0%, rgba(253, 29, 29, 1) 50%, rgba(252, 176, 69, 1) 100%);
+  width: 90%;
+  max-width: 600px;
+  padding: 4px;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`
+
+const Container = styled.div`
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  background-color: white;
+  border-radius: 16px;
+  padding: 48px;
+`
+
+const Form = styled.form`
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+`
+
+const Input = styled.input`
+  padding: 4px;
+  margin: 4px;
+  border: none;
+  border-bottom: 2px solid black;
+`
+
+const Button = styled.button`
+  border: none;
+  border-radius: 8px;
+  background-color: transparent;
+  padding: 8px;
+  margin: 4px;
+  width: fit-content;
+  font-weight: bold;
+  transition: 0.3s;
+
+  &:hover{
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  }
+`
 
 const Login = ({ setCurrentUser }) => {
   const [showLogin, setShowLogin] = useState(true)
@@ -60,32 +113,32 @@ const Login = ({ setCurrentUser }) => {
   }
 
   return(
-    <>
+    <ContainerBorder>
       {showLogin ? 
         (
-          <>
+          <Container>
             <h1>Login</h1>
-            <form onSubmit={handleLogin}>
-              <input type="text" value={username} onChange={({target}) => setUsername(target.value)} placeholder="Username:" />
-              <input type="password" value={password} onChange={({target}) => setPassword(target.value)} placeholder="Password:" />
-              <button type="submit" >Log In</button>
-            </form>
-            <button onClick={() => setShowLogin(!showLogin)}>New User?</button>
-          </>
+            <Form onSubmit={handleLogin}>
+              <Input type="text" value={username} onChange={({target}) => setUsername(target.value)} placeholder="Username:" />
+              <Input type="password" value={password} onChange={({target}) => setPassword(target.value)} placeholder="Password:" />
+              <Button type="submit" >Log In</Button>
+            </Form>
+            <Button onClick={() => setShowLogin(!showLogin)}>New User?</Button>
+          </Container>
         )
         : (
-          <>
+          <Container>
             <h1>Create Account</h1>
-            <form onSubmit={handleCreateUser}>
-              <input type="text" value={newUsername} onChange={({target}) => setNewUsername(target.value)} placeholder="Username:" />
-              <input type="password" minLength={4} value={newPassword} onChange={({target}) => setNewPassword(target.value)} placeholder="Password:" />
-              <button type="submit" >Create Account</button>
-            </form>
-            <button onClick={() => setShowLogin(!showLogin)}>Returning User?</button>
-          </>
+            <Form onSubmit={handleCreateUser}>
+              <Input type="text" value={newUsername} onChange={({target}) => setNewUsername(target.value)} placeholder="Username:" />
+              <Input type="password" minLength={4} value={newPassword} onChange={({target}) => setNewPassword(target.value)} placeholder="Password:" />
+              <Button type="submit" >Create Account</Button>
+            </Form>
+            <Button onClick={() => setShowLogin(!showLogin)}>Returning User?</Button>
+          </Container>
         )
       }
-    </>
+    </ContainerBorder>
   )
 }
 

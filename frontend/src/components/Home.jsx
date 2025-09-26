@@ -21,7 +21,7 @@ const Home = ({ currentUser, setCurrentUser }) => {
     <>
       <h1>TODO:</h1>
       <ul>
-        <li>sort workouts or search workouts</li>
+        <li>search workouts</li>
       </ul>
       <Workouts fetchWorkouts={fetchWorkouts} currentUser={currentUser} workouts={workouts} setWorkouts={setWorkouts} />
       <CreateWorkout fetchWorkouts={fetchWorkouts} currentUser={currentUser} setCurrentUser={setCurrentUser} workouts={workouts} setWorkouts={setWorkouts} />

@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import { MdDeleteOutline, MdCheck, MdOutlineEdit, MdOutlineCancel } from 'react-icons/md'
 
 import { useState } from 'react'
 import userService from '../services/users'
@@ -12,6 +13,21 @@ const StyledWorkout = styled.div`
   border-radius: 8px;
   backdrop-filter: blur(10px);
   padding: 8px;
+`
+
+const Button = styled.button`
+  aspect-ratio: 1 / 1;
+  height: 100%;
+  padding: 4px;
+  border: none;
+  border-radius: 50%;
+  background-color: transparent;
+  font-size: 16px;
+  transition: 0.3s;
+
+  &:hover{
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  }
 `
 
 const Workout = ({ workout, workouts, setWorkouts, currentUser, setNotificationMessage, fetchWorkouts }) => {
@@ -111,7 +127,7 @@ const Workout = ({ workout, workouts, setWorkouts, currentUser, setNotificationM
 
   return(
     <StyledWorkout>
-      <h2>{workout.name}<button onClick={(event) => handleDeleteWorkout(event, workout.id)}>Delete</button></h2>
+      <h2 style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>{workout.name}<Button onClick={(event) => handleDeleteWorkout(event, workout.id)}><MdDeleteOutline style={{fontSize: 20}} /></Button></h2>
       {workout.exercises.map((e, index) => {
         return(
           <div key={e.name}>
@@ -121,8 +137,8 @@ const Workout = ({ workout, workouts, setWorkouts, currentUser, setNotificationM
                   <td>{e.name}</td>
                   <td>{e.sets} x {e.reps}</td>
                   <td>{e.weight} lbs</td>
-                  <td><button onClick={() => toggleVisibility(e)}>{editingExerciseId === e.id ? 'Cancel' : 'Edit'}</button></td>
-                  <td><button onClick={(event) => handleDeleteExercise(event, workout.id, e.id)}>Delete</button></td>
+                  <td><Button onClick={() => toggleVisibility(e)}>{editingExerciseId === e.id ? <MdOutlineCancel style={{ fontSize: 20 }} /> : <MdOutlineEdit style={{ fontSize: 20, margin: 0 }} />}</Button></td>
+                  <td><Button onClick={(event) => handleDeleteExercise(event, workout.id, e.id)}><MdDeleteOutline style={{ fontSize: 20, margin: 0 }}/></Button></td>
                 </tr>
               </tbody>
             </table>
@@ -132,7 +148,7 @@ const Workout = ({ workout, workouts, setWorkouts, currentUser, setNotificationM
                 sets={sets} setSets={setSets}
                 reps={reps} setReps={setReps}
                 weight={weight} setWeight={setWeight} />
-                <button type='submit'>Update</button>
+                <Button type='submit'><MdCheck style={{ fontSize: 20 }} /></Button>
               </form>
             )}
           </div>

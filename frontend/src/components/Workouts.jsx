@@ -12,6 +12,22 @@ const Grid = styled.div`
   grid-gap: 8px;
 `
 
+const Button = styled.button`
+  aspect-ratio: 1 / 1;
+  height: fit-content;
+  padding: 4px;
+  margin: 4px;
+  border: none;
+  border-radius: 50%;
+  background-color: transparent;
+  font-size: 16px;
+  transition: 0.3s;
+
+  &:hover{
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  }
+`
+
 const Workouts = ({ fetchWorkouts, currentUser, workouts, setWorkouts }) => {
   const [notificationMessage, setNotificationMessage] = useState(null)
 
@@ -31,7 +47,7 @@ const Workouts = ({ fetchWorkouts, currentUser, workouts, setWorkouts }) => {
   return(
     <>
       <h1>My Workouts</h1>
-      <label htmlFor='sortBtn'>Sort By:<button id='sortBtn' onClick={handleChangeSortType}>{sortType}</button></label>
+      <label htmlFor='sortBtn'>Sort By:<Button id='sortBtn' onClick={handleChangeSortType}>{sortType}</Button></label>
       <Notification message={notificationMessage} />
       {
       workouts.length === 0 ? <p>Nothing here...</p>
