@@ -9,15 +9,13 @@ import Notification from './Notification'
 
 // styles
 const Container = styled.div`
-  width: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
   background-color: transpareant;
-  border-radius: 16px;
-  padding: 48px;
-  padding-bottom: 40px;
+  padding: 24px;
+  margin-top: 24px;
 `
 
 const Form = styled.form`
@@ -27,6 +25,7 @@ const Form = styled.form`
 `
 
 const Input = styled.input`
+  width: 100%;
   padding: 8px;
   margin: 4px;
   border: 1px solid white;
@@ -85,7 +84,7 @@ const CreateWorkout = ({ fetchWorkouts, currentUser, workouts, setWorkouts }) =>
 
   return(
     <Container>
-      <h2 style={{ color: 'white', textShadow: '1px 1px 5px black', paddingRight: 28 }}>New Workout</h2>
+      <h2 style={{ color: 'white', textShadow: '1px 1px 5px black', marginBottom: 8 }}>New Workout</h2>
       <Form onSubmit={handleSubmit}>
         <Input id='workoutname' name="workoutname" type="text" value={workoutName} onChange={({target}) => setWorkoutName(target.value)} placeholder="Workout Name (e.g. Legs)" required />
         <Button type="submit"><MdAdd style={{ fontSize: 20 }}/></Button>

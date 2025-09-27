@@ -13,6 +13,7 @@ const WorkoutBorder = styled.div`
   padding: 4px;
   border-radius: 20px;
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  transition: 0.3s;
 `
 
 const StyledWorkout = styled.div`
@@ -20,6 +21,7 @@ const StyledWorkout = styled.div`
   background-color: white;
   padding: 16px;
   height: 100%;
+  transition: 0.3s;
 `
 
 const StyledExercise = styled.div`
@@ -31,6 +33,7 @@ const StyledExercise = styled.div`
 const Form = styled.form`
   margin-top: 4px;
   padding: 8px;
+  padding-top: 16px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -154,7 +157,7 @@ const Workout = ({ workout, workouts, setWorkouts, currentUser, setNotificationM
   return(
     <WorkoutBorder>
       <StyledWorkout>
-        <h2 style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>{workout.name}<Button onClick={(event) => handleDeleteWorkout(event, workout.id)}><MdDeleteOutline style={{fontSize: 20}} /></Button></h2>
+        <h2 style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', textDecoration: 'underline' }}>{workout.name}<Button onClick={(event) => handleDeleteWorkout(event, workout.id)}><MdDeleteOutline style={{fontSize: 20}} /></Button></h2>
         {workout.exercises.map((e, index) => {
           return(
             <StyledExercise key={e.name}>

@@ -9,13 +9,11 @@ import Notification from './Notification'
 
 // styles
 const Container = styled.div`
-  width: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
   background-color: transparent;
-  border-radius: 16px;
   padding: 24px;
   padding-bottom: 40px;
 `
@@ -108,7 +106,7 @@ const CreateExercise = ({ fetchWorkouts, currentUser, workouts, setWorkouts }) =
 
   return(
     <Container>
-      <h2 style={{ color: 'white', textShadow: '1px 1px 5px black', marginBottom: 8, paddingRight: 28 }}>New Exercise</h2>
+      <h2 style={{ color: 'white', textShadow: '1px 1px 5px black', marginBottom: 8 }}>New Exercise</h2>
       <Form onSubmit={(event) => handleSubmit(event)}>
         <div>
           <Selector defaultValue={''} onChange={ ({ target }) => setWorkoutId(target.value) }>

@@ -3,7 +3,6 @@ import { MdOutlineSortByAlpha, MdDateRange } from 'react-icons/md'
 
 import { useState } from 'react'
 
-import Notification from './Notification'
 import Workout from './Workout'
 
 // styles
@@ -70,7 +69,6 @@ const Workouts = ({ fetchWorkouts, currentUser, workouts, setWorkouts }) => {
         </div>
       </div>
   
-      <Notification message={notificationMessage} />
       {
       workouts.length === 0 ? <p>Nothing here...</p>
       :
@@ -83,7 +81,7 @@ const Workouts = ({ fetchWorkouts, currentUser, workouts, setWorkouts }) => {
         })
         : sortedWorkouts.filter(w => w.name.toLowerCase().includes(searchFor.toLowerCase())).map(w => {
           return(
-            <Workout key={w.name} workout={w} workouts={workouts} setWorkouts={setWorkouts} currentUser={currentUser} setNotificationMessage={setNotificationMessage} fetchWorkouts={fetchWorkouts} />
+            <Workout key={w.name} workout={w} workouts={workouts} setWorkouts={setWorkouts} currentUser={currentUser} notificationMessage={notificationMessage} setNotificationMessage={setNotificationMessage} fetchWorkouts={fetchWorkouts} />
           )
         })}
         </Grid>
