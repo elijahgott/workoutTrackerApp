@@ -4,7 +4,7 @@ const config = require('./utils/config')
 const logger = require('./utils/logger')
 const middleware = require('./utils/middleware')
 const morgan  = require('morgan')
-const cors = require('cors')
+// const cors = require('cors') // only use if frontend and backend are hosted separately
 const app = express()
 require('dotenv').config()
 
