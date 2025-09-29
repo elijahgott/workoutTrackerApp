@@ -4,6 +4,8 @@ import { useState } from 'react'
 import loginService from '../services/login'
 import userService from '../services/users'
 
+import Notification from './Notification'
+
 const ContainerBorder = styled.div`
   margin: 24px auto;
   background: linear-gradient(90deg,rgba(131, 58, 180, 1) 0%, rgba(253, 29, 29, 1) 50%, rgba(252, 176, 69, 1) 100%);
@@ -66,6 +68,8 @@ const Login = ({ setCurrentUser }) => {
   const [newUsername, setNewUsername] = useState('')
   const [newPassword, setNewPassword] = useState('')
 
+  const [notificationMessage, setNotificationMessage] = useState(null)
+
   const handleLogin = async (e) => {
     e.preventDefault()
 
@@ -81,7 +85,9 @@ const Login = ({ setCurrentUser }) => {
       setPassword('')
     }
     catch{
-      console.error('Wrong credentials')
+      setNotificationMessage('Incorrect username or password.')
+
+      setTimeout(() => setNotificationMessage(null), 3000)
     }
   }
 
@@ -110,7 +116,9 @@ const Login = ({ setCurrentUser }) => {
       }
     }
     else{
-      console.error('Invalid username or password.')
+      setNotificationMessage('Invalid username or password.')
+
+      setTimeout(() => setNotificationMessage(null), 3000)
     }
   }
 
@@ -121,8 +129,9 @@ const Login = ({ setCurrentUser }) => {
           <Container>
             <h1>Login</h1>
             <Form onSubmit={handleLogin}>
-              <Input type="text" value={username} onChange={({target}) => setUsername(target.value)} placeholder="Username:" />
-              <Input type="password" value={password} onChange={({target}) => setPassword(target.value)} placeholder="Password:" />
+              <Input type="text" value={username} onChange={({target}) => setUsername(target.value)} placeholder="Username:" required />
+              <Input type="password" value={password} onChange={({target}) => setPassword(target.value)} placeholder="Password:" required />
+              <Notification textColor={'black'} message={notificationMessage} />
               <Button type="submit" >Log In</Button>
             </Form>
             <Button onClick={() => setShowLogin(!showLogin)}>New User?</Button>
@@ -132,8 +141,8 @@ const Login = ({ setCurrentUser }) => {
           <Container>
             <h1>Create Account</h1>
             <Form onSubmit={handleCreateUser}>
-              <Input type="text" value={newUsername} onChange={({target}) => setNewUsername(target.value)} placeholder="Username:" />
-              <Input type="password" minLength={4} value={newPassword} onChange={({target}) => setNewPassword(target.value)} placeholder="Password:" />
+              <Input type="text" value={newUsername} onChange={({target}) => setNewUsername(target.value)} placeholder="Username:" required />
+              <Input type="password" minLength={4} value={newPassword} onChange={({target}) => setNewPassword(target.value)} placeholder="Password:" required />
               <Button type="submit" >Create Account</Button>
             </Form>
             <Button onClick={() => setShowLogin(!showLogin)}>Returning User?</Button>

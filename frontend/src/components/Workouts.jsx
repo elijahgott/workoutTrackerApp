@@ -70,7 +70,7 @@ const Workouts = ({ fetchWorkouts, currentUser, workouts, setWorkouts }) => {
       </div>
   
       {
-      workouts.length === 0 ? <p>Nothing here...</p>
+      workouts.length === 0 ? <p style={{ textAlign: 'center', color: 'gray', paddingTop: 8 }}>Nothing here...</p>
       :
       <Grid>
         {sortType === 'None' 
