@@ -87,7 +87,7 @@ const CreateWorkout = ({ fetchWorkouts, currentUser, workouts, setWorkouts }) =>
       <h2 style={{ color: 'white', textShadow: '1px 1px 5px black', marginBottom: 8 }}>New Workout</h2>
       <Form onSubmit={handleSubmit}>
         <Input id='workoutname' name="workoutname" type="text" value={workoutName} onChange={({target}) => setWorkoutName(target.value)} placeholder="Workout Name (e.g. Legs)" minLength={3} required />
-        <Button type="submit"><MdAdd style={{ fontSize: 20 }}/></Button>
+        <Button type="submit"><MdAdd style={{ fontSize: 20, color: 'black' }}/></Button>
       </Form>
       <Notification message={notificationMessage} />
     </Container>

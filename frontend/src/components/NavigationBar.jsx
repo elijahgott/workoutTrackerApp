@@ -52,7 +52,7 @@ const NavigationBar = ({ currentUser, setCurrentUser }) => {
         <NavItems>
           <h1 style={{ fontSize: 20, fontWeight: 800, marginLeft: 4 }}>Workout Tracker</h1>
           <p style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 16 }}><strong>{currentUser.username}</strong>
-            <Button onClick={() => {
+            <Button style={{ color: 'black' }} onClick={() => {
               window.localStorage.removeItem('loggedInWorkoutAppUser')
               setCurrentUser(null)
             }}>

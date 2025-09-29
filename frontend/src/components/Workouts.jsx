@@ -65,7 +65,7 @@ const Workouts = ({ fetchWorkouts, currentUser, workouts, setWorkouts }) => {
         <Input type='text' value={searchFor} onChange={({ target }) => setSearchFor(target.value)} placeholder='Search Workouts' />
         <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center'}}>
           <label htmlFor='sortBtn'>Sort:</label>
-          <Button style={{ marginLeft: 4 }} id='sortBtn' onClick={handleChangeSortType}>{sortType === 'None' ? <MdDateRange style={{ fontSize: 20 }} /> : <MdOutlineSortByAlpha style={{ fontSize: 20 }} />}</Button>
+          <Button style={{ marginLeft: 4 }} id='sortBtn' onClick={handleChangeSortType}>{sortType === 'None' ? <MdDateRange style={{ fontSize: 20, color: 'black' }} /> : <MdOutlineSortByAlpha style={{ fontSize: 20, color: 'black' }} />}</Button>
         </div>
       </div>
   

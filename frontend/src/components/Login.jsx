@@ -127,25 +127,25 @@ const Login = ({ setCurrentUser }) => {
       {showLogin ? 
         (
           <Container>
-            <h1>Login</h1>
+            <h1 style={{ textAlign: 'center' }}>Login</h1>
             <Form onSubmit={handleLogin}>
               <Input type="text" value={username} onChange={({target}) => setUsername(target.value)} placeholder="Username:" required />
               <Input type="password" value={password} onChange={({target}) => setPassword(target.value)} placeholder="Password:" required />
               <Notification textColor={'black'} message={notificationMessage} />
-              <Button type="submit" >Log In</Button>
+              <Button style={{ color: 'black' }} type="submit" >Log In</Button>
             </Form>
-            <Button onClick={() => setShowLogin(!showLogin)}>New User?</Button>
+            <Button style={{ color: 'black' }} onClick={() => setShowLogin(!showLogin)} >New User?</Button>
           </Container>
         )
         : (
           <Container>
-            <h1>Create Account</h1>
+            <h1 style={{ textAlign: 'center' }}>Create Account</h1>
             <Form onSubmit={handleCreateUser}>
               <Input type="text" value={newUsername} onChange={({target}) => setNewUsername(target.value)} placeholder="Username:" required />
               <Input type="password" minLength={4} value={newPassword} onChange={({target}) => setNewPassword(target.value)} placeholder="Password:" required />
-              <Button type="submit" >Create Account</Button>
+              <Button style={{ color: 'black' }} type="submit" >Create Account</Button>
             </Form>
-            <Button onClick={() => setShowLogin(!showLogin)}>Returning User?</Button>
+            <Button style={{ color: 'black' }} onClick={() => setShowLogin(!showLogin)}>Returning User?</Button>
           </Container>
         )
       }

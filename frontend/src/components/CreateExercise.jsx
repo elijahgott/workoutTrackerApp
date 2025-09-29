@@ -119,7 +119,7 @@ const CreateExercise = ({ fetchWorkouts, currentUser, workouts, setWorkouts }) =
           reps={reps} setReps={setReps}
           weight={weight} setWeight={setWeight} />
         </div>
-        <Button type='submit'><MdAdd style={{ fontSize: 20 }} /></Button>
+        <Button type='submit'><MdAdd style={{ fontSize: 20, color: 'black' }} /></Button>
       </Form>
       <Notification message={notificationMessage} />
     </Container>

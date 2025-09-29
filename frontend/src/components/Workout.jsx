@@ -157,7 +157,7 @@ const Workout = ({ workout, workouts, setWorkouts, currentUser, setNotificationM
   return(
     <WorkoutBorder>
       <StyledWorkout>
-        <h2 style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', textDecoration: 'underline' }}>{workout.name}<Button onClick={(event) => handleDeleteWorkout(event, workout.id)}><MdDeleteOutline style={{fontSize: 20}} /></Button></h2>
+        <h2 style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', textDecoration: 'underline' }}>{workout.name}<Button onClick={(event) => handleDeleteWorkout(event, workout.id)}><MdDeleteOutline style={{ fontSize: 20, color: 'black' }} /></Button></h2>
         {workout.exercises.map((e, index) => {
           return(
             <StyledExercise key={e.name}>
@@ -175,8 +175,8 @@ const Workout = ({ workout, workouts, setWorkouts, currentUser, setNotificationM
                 </div>
 
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'right'}}>
-                  <Button onClick={() => toggleVisibility(e)}>{editingExerciseId === e.id ? <MdOutlineCancel style={{ fontSize: 20 }} /> : <MdOutlineEdit style={{ fontSize: 20, margin: 0 }} />}</Button>
-                  <Button onClick={(event) => handleDeleteExercise(event, workout.id, e.id)}><MdDeleteOutline style={{ fontSize: 20, margin: 0 }}/></Button>
+                  <Button onClick={() => toggleVisibility(e)}>{editingExerciseId === e.id ? <MdOutlineCancel style={{ fontSize: 20, color: 'black' }} /> : <MdOutlineEdit style={{ fontSize: 20, margin: 0 }} />}</Button>
+                  <Button onClick={(event) => handleDeleteExercise(event, workout.id, e.id)}><MdDeleteOutline style={{ fontSize: 20, margin: 0, color: 'black' }}/></Button>
                 </div>
               </div>
       
