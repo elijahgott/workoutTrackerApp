@@ -38,4 +38,10 @@ app.use('/api/exercises', exercisesRouter)
 app.use(middleware.unknownEndpoint)
 app.use(middleware.errorHandler)
 
+// Catch-all: serve frontend index.html for unknown routes
+const path = require('path');
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'dist', 'index.html'));
+});
+
 module.exports = app
