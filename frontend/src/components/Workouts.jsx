@@ -23,6 +23,19 @@ const Input = styled.input`
   border-bottom: 2px solid black;
 `
 
+const InputDark = styled.input`
+  padding: 8px;
+  margin: 4px;
+  border: none;
+  border-bottom: 2px solid white;
+  background-color: rgb(25, 25, 25);
+  color: white;
+
+  &::placeholder{
+    color: white;
+  }
+`
+
 const Button = styled.button`
   display: flex;
   align-items: center;
@@ -41,7 +54,7 @@ const Button = styled.button`
   }
 `
 
-const Workouts = ({ fetchWorkouts, currentUser, workouts, setWorkouts }) => {
+const Workouts = ({ fetchWorkouts, currentUser, workouts, setWorkouts, isDark }) => {
   const [notificationMessage, setNotificationMessage] = useState(null)
 
   const [searchFor, setSearchFor] = useState('')
@@ -62,10 +75,15 @@ const Workouts = ({ fetchWorkouts, currentUser, workouts, setWorkouts }) => {
     <Container>
       <h2 style={{ marginTop: 16, marginLeft: 8 }}>My Workouts</h2>
       <div style={{display: 'flex', justifyContent: 'space-between', marginTop: 8, marginBottom: 8, marginLeft: 4 }}>
-        <Input type='text' value={searchFor} onChange={({ target }) => setSearchFor(target.value)} placeholder='Search Workouts' />
+        { isDark ? 
+          <InputDark type='text' value={searchFor} onChange={({ target }) => setSearchFor(target.value)} placeholder='Search Workouts' />
+          :
+          <Input type='text' value={searchFor} onChange={({ target }) => setSearchFor(target.value)} placeholder='Search Workouts' />
+        }
+        
         <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center'}}>
           <label htmlFor='sortBtn'>Sort:</label>
-          <Button style={{ marginLeft: 4 }} id='sortBtn' onClick={handleChangeSortType}>{sortType === 'None' ? <MdDateRange style={{ fontSize: 20, color: 'black' }} /> : <MdOutlineSortByAlpha style={{ fontSize: 20, color: 'black' }} />}</Button>
+          <Button style={ isDark ? { marginLeft: 4 } : { marginLeft: 4 }} id='sortBtn' onClick={handleChangeSortType}>{sortType === 'None' ? <MdDateRange style={ isDark ? { fontSize: 20, color: 'white' } : { fontSize: 20, color: 'black' }} /> : <MdOutlineSortByAlpha style={ isDark ? { fontSize: 20, color: 'white' } : { fontSize: 20, color: 'black' }} />}</Button>
         </div>
       </div>
   
@@ -76,12 +94,12 @@ const Workouts = ({ fetchWorkouts, currentUser, workouts, setWorkouts }) => {
         {sortType === 'None' 
         ? workouts.filter(w => w.name.toLowerCase().includes(searchFor.toLowerCase())).map(w => {
           return(
-            <Workout key={w.name} workout={w} workouts={workouts} setWorkouts={setWorkouts} currentUser={currentUser} setNotificationMessage={setNotificationMessage} fetchWorkouts={fetchWorkouts} />
+            <Workout key={w.name} isDark={isDark} workout={w} workouts={workouts} setWorkouts={setWorkouts} currentUser={currentUser} setNotificationMessage={setNotificationMessage} fetchWorkouts={fetchWorkouts} />
           )
         })
         : sortedWorkouts.filter(w => w.name.toLowerCase().includes(searchFor.toLowerCase())).map(w => {
           return(
-            <Workout key={w.name} workout={w} workouts={workouts} setWorkouts={setWorkouts} currentUser={currentUser} notificationMessage={notificationMessage} setNotificationMessage={setNotificationMessage} fetchWorkouts={fetchWorkouts} />
+            <Workout key={w.name} isDark={isDark} workout={w} workouts={workouts} setWorkouts={setWorkouts} currentUser={currentUser} notificationMessage={notificationMessage} setNotificationMessage={setNotificationMessage} fetchWorkouts={fetchWorkouts} />
           )
         })}
         </Grid>

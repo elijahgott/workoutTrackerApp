@@ -25,7 +25,6 @@ const Container = styled.div`
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  background-color: white;
   border-radius: 16px;
   padding: 48px;
   padding-bottom: 40px;
@@ -44,6 +43,19 @@ const Input = styled.input`
   border-bottom: 2px solid black;
 `
 
+const InputDark = styled.input`
+  padding: 4px;
+  margin: 4px;
+  border: none;
+  border-bottom: 2px solid white;
+  background-color: rgb(25, 25, 25);
+  color: white;
+
+  &::placeholder{
+    color: white;
+  }
+`
+
 const Button = styled.button`
   border: none;
   border-radius: 8px;
@@ -53,13 +65,14 @@ const Button = styled.button`
   width: fit-content;
   font-weight: bold;
   transition: 0.3s;
+  color: black;
 
   &:hover{
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
   }
 `
 
-const Login = ({ setCurrentUser }) => {
+const Login = ({ setCurrentUser, isDark }) => {
   const [showLogin, setShowLogin] = useState(true)
 
   const [username, setUsername] = useState('')
@@ -126,26 +139,53 @@ const Login = ({ setCurrentUser }) => {
     <ContainerBorder>
       {showLogin ? 
         (
-          <Container>
+          <Container style={ isDark ? { backgroundColor: 'rgb(25, 25, 25)' } : { backgroundColor: 'white' } }>
             <h1 style={{ textAlign: 'center' }}>Login</h1>
             <Form onSubmit={handleLogin}>
-              <Input type="text" value={username} onChange={({target}) => setUsername(target.value)} placeholder="Username:" required />
-              <Input type="password" value={password} onChange={({target}) => setPassword(target.value)} placeholder="Password:" required />
-              <Notification textColor={'black'} message={notificationMessage} />
-              <Button style={{ color: 'black' }} type="submit" >Log In</Button>
+              { isDark ?
+                (
+                  <>
+                    <InputDark type="text" value={username} onChange={({target}) => setUsername(target.value)} placeholder="Username:" required />
+                    <InputDark type="password" value={password} onChange={({target}) => setPassword(target.value)} placeholder="Password:" required />
+                  </>
+                )
+                :
+                (
+                  <>
+                    <Input type="text" value={username} onChange={({target}) => setUsername(target.value)} placeholder="Username:" required />
+                    <Input type="password" value={password} onChange={({target}) => setPassword(target.value)} placeholder="Password:" required />
+                  </> 
+                )
+              }
+              <Notification isDark={ isDark } textColor={'black'} message={notificationMessage} />
+              <Button style={ isDark ? { color: 'white' } : { color: 'black' } } type="submit" >Log In</Button>
             </Form>
-            <Button style={{ color: 'black' }} onClick={() => setShowLogin(!showLogin)} >New User?</Button>
+            <Button style={ isDark ? { color: 'white' } : { color: 'black' } } onClick={() => setShowLogin(!showLogin)} >New User?</Button>
           </Container>
         )
         : (
-          <Container>
+          <Container style={ isDark ? { backgroundColor: 'rgb(25, 25, 25)' } : { backgroundColor: 'white' } }>
             <h1 style={{ textAlign: 'center' }}>Create Account</h1>
             <Form onSubmit={handleCreateUser}>
-              <Input type="text" value={newUsername} onChange={({target}) => setNewUsername(target.value)} placeholder="Username:" required />
-              <Input type="password" minLength={4} value={newPassword} onChange={({target}) => setNewPassword(target.value)} placeholder="Password:" required />
-              <Button style={{ color: 'black' }} type="submit" >Create Account</Button>
+              
+              { isDark ?
+                (
+                  <>
+                    <InputDark type="text" value={newUsername} onChange={({target}) => setNewUsername(target.value)} placeholder="Username:" required />
+                    <InputDark type="password" minLength={4} value={newPassword} onChange={({target}) => setNewPassword(target.value)} placeholder="Password:" required />
+                  </>
+                )
+                :
+                (
+                  <>
+                    <Input type="text" value={newUsername} onChange={({target}) => setNewUsername(target.value)} placeholder="Username:" required />
+                    <Input type="password" minLength={4} value={newPassword} onChange={({target}) => setNewPassword(target.value)} placeholder="Password:" required />
+                  </> 
+                )
+              }
+              <Button style={ isDark ? { color: 'white' } : { color: 'black' } } type="submit" >Create Account</Button>
             </Form>
-            <Button style={{ color: 'black' }} onClick={() => setShowLogin(!showLogin)}>Returning User?</Button>
+            <Button style={ isDark ? { color: 'white' } : { color: 'black' } } onClick={() => setShowLogin(!showLogin)}>Returning User?</Button>
           </Container>
         )
       }

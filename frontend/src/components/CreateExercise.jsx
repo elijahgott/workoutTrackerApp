@@ -54,7 +54,7 @@ const Button = styled.button`
   }
 `
 
-const CreateExercise = ({ fetchWorkouts, currentUser, workouts, setWorkouts }) => {
+const CreateExercise = ({ fetchWorkouts, currentUser, workouts, setWorkouts, isDark }) => {
   const [workoutId, setWorkoutId] = useState('')
   const [exerciseName, setExerciseName] = useState('')
   const [sets, setSets] = useState('')
@@ -106,22 +106,22 @@ const CreateExercise = ({ fetchWorkouts, currentUser, workouts, setWorkouts }) =
 
   return(
     <Container>
-      <h2 style={{ color: 'white', textShadow: '1px 1px 5px black', marginBottom: 8 }}>New Exercise</h2>
-      <Form onSubmit={(event) => handleSubmit(event)}>
-        <div>
-          <Selector defaultValue={''} onChange={ ({ target }) => setWorkoutId(target.value) }>
+      <h2 style={ isDark ? { color: 'black', marginBottom: 8, backgroundColor: 'transparent' } : { color: 'white', textShadow: '1px 1px 5px black', marginBottom: 8, backgroundColor: 'transparent' }}>New Exercise</h2>
+      <Form style={{ backgroundColor: 'transparent' }} onSubmit={(event) => handleSubmit(event)}>
+        <div style={{ backgroundColor: 'transparent' }}>
+          <Selector style={ isDark ? {color: 'white', backgroundColor: 'rgb(25, 25, 25)', border: '1px solid black' } : {} } defaultValue={''} onChange={ ({ target }) => setWorkoutId(target.value) }>
             <option value=''>Select a Workout</option>
             {workouts.map(w => <option key={ w.id } value={ w.id }>{ w.name }</option>)}
           </Selector>
 
-          <ExerciseInput exerciseName={exerciseName} setExerciseName={setExerciseName}
+          <ExerciseInput style={{ backgroundColor: 'transparent' }} isDark={isDark} exerciseName={exerciseName} setExerciseName={setExerciseName}
           sets={sets} setSets={setSets}
           reps={reps} setReps={setReps}
           weight={weight} setWeight={setWeight} />
         </div>
-        <Button type='submit'><MdAdd style={{ fontSize: 20, color: 'black' }} /></Button>
+        <Button style={ isDark ? { backgroundColor: 'rgb(25, 25, 25)' } : { backgroundColor: 'white' } } type='submit'><MdAdd style={ isDark ? { fontSize: 20, color: 'white' } : { fontSize: 20, color: 'black' }} /></Button>
       </Form>
-      <Notification message={notificationMessage} />
+      <Notification isDark={ isDark } message={ notificationMessage } />
     </Container>
   )
 }

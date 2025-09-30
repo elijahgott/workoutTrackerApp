@@ -12,12 +12,12 @@ const EmptyDiv = styled.div`
   height: 20px;
 `
 
-const Notification = ({ textColor, message }) => {
+const Notification = ({ isDark, textColor, message }) => {
   const color = textColor || 'white';
   if(!message) return <EmptyDiv />
   return(
-    <StyledNotification>
-      <p style={{ color: color }}>{message}</p>
+    <StyledNotification style={{ backgroundColor: 'transparent'}}>
+      <p style={{ color: color, backgroundColor: 'transparent' }}>{message}</p>
     </StyledNotification>
   )
 }

@@ -24,6 +24,15 @@ const StyledWorkout = styled.div`
   transition: 0.3s;
 `
 
+const StyledWorkoutDark = styled.div`
+  border-radius: 16px;
+  background-color: white;
+  padding: 16px;
+  height: 100%;
+  transition: 0.3s;
+  background-color: rgb(25, 25, 25);
+`
+
 const StyledExercise = styled.div`
   display: flex;
   flex-direction: column;
@@ -50,7 +59,7 @@ const Button = styled.button`
   padding: 4px;
   border: none;
   border-radius: 50%;
-  background-color: white;
+  background-color: transparent;
   font-size: 16px;
   transition: 0.3s;
 
@@ -59,7 +68,7 @@ const Button = styled.button`
   }
 `
 
-const Workout = ({ workout, workouts, setWorkouts, currentUser, setNotificationMessage, fetchWorkouts }) => {
+const Workout = ({ isDark, workout, workouts, setWorkouts, currentUser, setNotificationMessage, fetchWorkouts }) => {
   const handleDeleteWorkout = async (event, workoutId) => {
     event.preventDefault()
 
@@ -156,37 +165,37 @@ const Workout = ({ workout, workouts, setWorkouts, currentUser, setNotificationM
 
   return(
     <WorkoutBorder>
-      <StyledWorkout>
-        <h2 style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', textDecoration: 'underline' }}>{workout.name}<Button onClick={(event) => handleDeleteWorkout(event, workout.id)}><MdDeleteOutline style={{ fontSize: 20, color: 'black' }} /></Button></h2>
+      <StyledWorkout style={ isDark ? { backgroundColor: 'rgb(25, 25, 25)' } : { backgroundColor: 'white' } }>
+        <h2 style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', textDecoration: 'underline' }}>{workout.name}<Button onClick={(event) => handleDeleteWorkout(event, workout.id)}><MdDeleteOutline style={ isDark ? { fontSize: 20, margin: 0, color: 'white' } : { fontSize: 20, margin: 0, color: 'black' }} /></Button></h2>
         {workout.exercises.map((e, index) => {
           return(
-            <StyledExercise key={e.name}>
+            <StyledExercise style={ isDark ? { color: 'white', backgroundColor: 'transparent' } : { color: 'black', backgroundColor: 'transparent' } } key={e.name}>
               <div style={{ display: 'flex'}}>
-                <div style={{ display: 'grid', gridTemplateColumns: '33% 33% 33%', width: '80%', marginRight: 8 }} key={index}>
-                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'left' }}>
-                    <p><strong>{e.name}</strong></p>
+                <div style={{ display: 'grid', gridTemplateColumns: '33% 33% 33%', width: '80%', marginRight: 8, backgroundColor: 'transparent' }} key={index}>
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'left', backgroundColor: 'transparent' }}>
+                    <p style={{ backgroundColor: 'transparent', fontSize: 16 }}><strong>{e.name}</strong></p>
                   </div>
-                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                    <p style={{ margin: '0 auto' }}>{e.sets} x {e.reps}</p>
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: 'transparent' }}>
+                    <p style={{ margin: '0 auto', backgroundColor: 'transparent', fontSize: 14 }}>{e.sets} x {e.reps}</p>
                   </div>
-                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                    <p style={{ marginRight: 0, marginLeft: 'auto' }}>{e.weight} lbs</p>
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: 'transparent' }}>
+                    <p style={{ marginRight: 0, marginLeft: 'auto', fontSize: 14 }}>{e.weight} lbs</p>
                   </div>
                 </div>
 
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'right'}}>
-                  <Button onClick={() => toggleVisibility(e)}>{editingExerciseId === e.id ? <MdOutlineCancel style={{ fontSize: 20, color: 'black' }} /> : <MdOutlineEdit style={{ fontSize: 20, margin: 0 }} />}</Button>
-                  <Button onClick={(event) => handleDeleteExercise(event, workout.id, e.id)}><MdDeleteOutline style={{ fontSize: 20, margin: 0, color: 'black' }}/></Button>
+                  <Button onClick={() => toggleVisibility(e)}>{editingExerciseId === e.id ? <MdOutlineCancel style={ isDark ? { fontSize: 20, margin: 0, color: 'white' } : { fontSize: 20, margin: 0, color: 'black' }} /> : <MdOutlineEdit style={ isDark ? { fontSize: 20, margin: 0, color: 'white' } : { fontSize: 20, margin: 0, color: 'black' }} />}</Button>
+                  <Button onClick={(event) => handleDeleteExercise(event, workout.id, e.id)}><MdDeleteOutline style={ isDark ? { fontSize: 20, margin: 0, color: 'white' } : { fontSize: 20, margin: 0, color: 'black' }}/></Button>
                 </div>
               </div>
       
               {editingExerciseId === e.id && (
                 <Form onSubmit={(event) => handleEditExercise(event, workout.id, e.id)}>
-                  <ExerciseInput exerciseName={exerciseName} setExerciseName={setExerciseName}
+                  <ExerciseInput isDark={isDark} exerciseName={exerciseName} setExerciseName={setExerciseName}
                   sets={sets} setSets={setSets}
                   reps={reps} setReps={setReps}
                   weight={weight} setWeight={setWeight} />
-                  <Button style={{ margin: '4px auto' }} type='submit'><MdCheck style={{ fontSize: 20 }} /></Button>
+                  <Button style={ isDark ? { margin: '4px auto', backgroundColor: 'rgb(25, 25, 25)' } : { margin: '4px auto', backgroundColor: 'white' }} type='submit'><MdCheck style={ isDark ? { fontSize: 20, margin: 0, color: 'white' } : { fontSize: 20, margin: 0, color: 'black' }} /></Button>
                 </Form>
               )}
             </StyledExercise>

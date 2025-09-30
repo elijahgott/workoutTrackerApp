@@ -13,6 +13,12 @@ const Container = styled.div`
   max-width: 1200px; 
 `
 
+const ContainerDark = styled.div`
+  margin: 0 auto;
+  max-width: 1200px; 
+  background-color: rgb(25, 25, 25);
+`
+
 const AddNewContainer = styled.div`
   display: flex;
   align-items: center;
@@ -25,7 +31,7 @@ const AddNewContainer = styled.div`
 `
 
 
-const Home = ({ currentUser, setCurrentUser }) => {
+const Home = ({ currentUser, setCurrentUser, isDark }) => {
   const [workouts, setWorkouts] = useState([])
 
   const fetchWorkouts = useCallback( async () => {
@@ -40,13 +46,13 @@ const Home = ({ currentUser, setCurrentUser }) => {
   return(
     <Container>
       <AddNewContainer>
-        <CreateWorkout fetchWorkouts={fetchWorkouts} currentUser={currentUser} setCurrentUser={setCurrentUser} workouts={workouts} setWorkouts={setWorkouts} />
+        <CreateWorkout fetchWorkouts={fetchWorkouts} currentUser={currentUser} setCurrentUser={setCurrentUser} workouts={workouts} setWorkouts={setWorkouts} isDark={isDark} />
         {workouts.length === 0 ? null 
         :
-        <CreateExercise fetchWorkouts={fetchWorkouts} currentUser={currentUser} setCurrentUser={setCurrentUser} workouts={workouts} setWorkouts={setWorkouts} />
+        <CreateExercise fetchWorkouts={fetchWorkouts} currentUser={currentUser} setCurrentUser={setCurrentUser} workouts={workouts} setWorkouts={setWorkouts} isDark={isDark} />
         }
       </AddNewContainer>
-      <Workouts fetchWorkouts={fetchWorkouts} currentUser={currentUser} workouts={workouts} setWorkouts={setWorkouts} />
+      <Workouts fetchWorkouts={fetchWorkouts} currentUser={currentUser} workouts={workouts} setWorkouts={setWorkouts} isDark={isDark} />
     </Container>
   )
 }

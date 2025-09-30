@@ -16,7 +16,6 @@ const NavBar = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: white;
   border-radius: 16px;
   padding: 12px;
 `
@@ -45,18 +44,18 @@ const Button = styled.button`
   }
 `
 
-const NavigationBar = ({ currentUser, setCurrentUser }) => {
+const NavigationBar = ({ currentUser, setCurrentUser, isDark }) => {
   return(
     <NavBorder>
-      <NavBar>
+      <NavBar style={ isDark ? { backgroundColor: 'rgb(25, 25, 25)'} : { backgroundColor: 'white'} }>
         <NavItems>
           <h1 style={{ fontSize: 20, fontWeight: 800, marginLeft: 4 }}>Workout Tracker</h1>
           <p style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 16 }}><strong>{currentUser.username}</strong>
-            <Button style={{ color: 'black' }} onClick={() => {
+            <Button style={ isDark ? { color: 'white' } : { color: 'black' } } onClick={() => {
               window.localStorage.removeItem('loggedInWorkoutAppUser')
               setCurrentUser(null)
             }}>
-              <MdLogout />
+              <MdLogout style={ isDark ? { color: 'white'} : { color: 'black' }}/>
             </Button>
           </p>
         </NavItems>
