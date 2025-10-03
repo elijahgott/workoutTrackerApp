@@ -10,6 +10,7 @@ import Notification from './Notification'
 // styles
 const Container = styled.div`
   padding: 28px;
+  padding-top: 32px;
   display: flex;
   align-items: center;
   justify-content: center;

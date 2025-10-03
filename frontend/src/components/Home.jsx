@@ -15,7 +15,7 @@ const Container = styled.div`
 
 const AddNewContainer = styled.div`
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(min(100%/1, max(320px, 100%/2)), 1fr));
   margin: 20px;
   background: linear-gradient(90deg,rgba(131, 58, 180, 1) 0%, rgba(253, 29, 29, 1) 50%, rgba(252, 176, 69, 1) 100%);
   border-radius: 16px;
