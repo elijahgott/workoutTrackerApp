@@ -277,6 +277,7 @@ Please change the parent <Route path="${G}"> to <Route path="${G==="/"?"*":`${G}
   }
 `,wx=({fetchWorkouts:a,currentUser:i,workouts:r,setWorkouts:c,isDark:s})=>{const[f,h]=D.useState(null),[g,y]=D.useState(""),[m,v]=D.useState("None"),x=r.toSorted((U,A)=>U.name.localeCompare(A.name)),M=()=>{v(m==="None"?"A-Z":"None")};return z.jsxs(xx,{children:[z.jsx("h2",{style:{marginTop:16,marginLeft:8},children:"My Workouts"}),z.jsxs("div",{style:{display:"flex",justifyContent:"space-between",marginTop:8,marginBottom:8,marginLeft:4},children:[s?z.jsx(Rx,{type:"text",value:g,onChange:({target:U})=>y(U.value),placeholder:"Search Workouts"}):z.jsx(Ax,{type:"text",value:g,onChange:({target:U})=>y(U.value),placeholder:"Search Workouts"}),z.jsxs("div",{style:{display:"flex",flexDirection:"row",alignItems:"center",justifyContent:"center"},children:[z.jsx("label",{htmlFor:"sortBtn",children:"Sort:"}),z.jsx(Ox,{style:s?{marginLeft:4}:{marginLeft:4},id:"sortBtn",onClick:M,children:m==="None"?z.jsx(KE,{style:s?{fontSize:20,color:"white"}:{fontSize:20,color:"black"}}):z.jsx(WE,{style:s?{fontSize:20,color:"white"}:{fontSize:20,color:"black"}})})]})]}),r.length===0?z.jsx("p",{style:{textAlign:"center",color:"gray",paddingTop:8},children:"Nothing here..."}):z.jsx(Tx,{children:m==="None"?r.filter(U=>U.name.toLowerCase().includes(g.toLowerCase())).map(U=>z.jsx(qp,{isDark:s,workout:U,workouts:r,setWorkouts:c,currentUser:i,setNotificationMessage:h,fetchWorkouts:a},U.name)):x.filter(U=>U.name.toLowerCase().includes(g.toLowerCase())).map(U=>z.jsx(qp,{isDark:s,workout:U,workouts:r,setWorkouts:c,currentUser:i,notificationMessage:f,setNotificationMessage:h,fetchWorkouts:a},U.name))})]})},Cx=rt.div`
   padding: 28px;
+  padding-top: 32px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -360,7 +361,7 @@ Please change the parent <Route path="${G}"> to <Route path="${G==="/"?"*":`${G}
   max-width: 1200px; 
 `,Yx=rt.div`
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(min(100%/1, max(320px, 100%/2)), 1fr));
   margin: 20px;
   background: linear-gradient(90deg,rgba(131, 58, 180, 1) 0%, rgba(253, 29, 29, 1) 50%, rgba(252, 176, 69, 1) 100%);
   border-radius: 16px;
