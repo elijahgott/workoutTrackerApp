@@ -9,19 +9,19 @@ import Notification from './Notification'
 
 // styles
 const Container = styled.div`
+  padding: 28px;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
   background-color: transparent;
-  padding: 24px;
-  margin-top: 24px;
 `
 
 const Form = styled.form`
+  width: 100%;
   display: flex;
   align-items: center;
-  flex-direction: row;
+  flex-direction: column;
 `
 
 const Input = styled.input`

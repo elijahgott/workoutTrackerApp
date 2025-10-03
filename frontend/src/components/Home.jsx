@@ -13,17 +13,9 @@ const Container = styled.div`
   max-width: 1200px; 
 `
 
-const ContainerDark = styled.div`
-  margin: 0 auto;
-  max-width: 1200px; 
-  background-color: rgb(25, 25, 25);
-`
-
 const AddNewContainer = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-around;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
   margin: 20px;
   background: linear-gradient(90deg,rgba(131, 58, 180, 1) 0%, rgba(253, 29, 29, 1) 50%, rgba(252, 176, 69, 1) 100%);
   border-radius: 16px;

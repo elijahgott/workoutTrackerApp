@@ -10,27 +10,25 @@ import Notification from './Notification'
 // styles
 const Container = styled.div`
   display: flex;
+  padding: 24px;
   align-items: center;
   justify-content: center;
   flex-direction: column;
   background-color: transparent;
-  padding: 24px;
-  padding-bottom: 40px;
 `
 
 const Form = styled.form`
+  width: 100%;
   display: flex;
   align-items: center;
-  flex-direction: row;
+  flex-direction: column;
 `
 
 const Selector = styled.select`
-  width: 97%;
-  margin-left: 4px;
-  margin-right: 8px;
-  margin-bottom: 4px;
+  display: flex;
+  width: 98%;
+  margin: 4px;
   padding: 8px;
-  background: white;
   border: 1px solid white;
   border-radius: 8px;
 `
@@ -44,7 +42,6 @@ const Button = styled.button`
   margin: 4px;
   border: none;
   border-radius: 50%;
-  background: white;
   font-size: 20px;
   transition: 0.3s;
 
@@ -106,9 +103,9 @@ const CreateExercise = ({ fetchWorkouts, currentUser, workouts, setWorkouts, isD
 
   return(
     <Container>
-      <h2 style={ isDark ? { color: 'black', marginBottom: 8, backgroundColor: 'transparent' } : { color: 'white', textShadow: '1px 1px 5px black', marginBottom: 8, backgroundColor: 'transparent' }}>New Exercise</h2>
+      <h2 style={ isDark ? { color: 'black', marginTop: 12, marginBottom: 8, backgroundColor: 'transparent' } : { color: 'white', textShadow: '1px 1px 5px black', marginBottom: 8, backgroundColor: 'transparent' }}>New Exercise</h2>
       <Form style={{ backgroundColor: 'transparent' }} onSubmit={(event) => handleSubmit(event)}>
-        <div style={{ backgroundColor: 'transparent' }}>
+        <div style={{ backgroundColor: 'transparent', width: '100%' }}>
           <Selector style={ isDark ? {color: 'white', backgroundColor: 'rgb(25, 25, 25)', border: '1px solid black' } : {} } defaultValue={''} onChange={ ({ target }) => setWorkoutId(target.value) }>
             <option value=''>Select a Workout</option>
             {workouts.map(w => <option key={ w.id } value={ w.id }>{ w.name }</option>)}

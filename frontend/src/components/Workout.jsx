@@ -173,7 +173,7 @@ const Workout = ({ isDark, workout, workouts, setWorkouts, currentUser, setNotif
               <div style={{ display: 'flex'}}>
                 <div style={{ display: 'grid', gridTemplateColumns: '33% 33% 33%', width: '80%', marginRight: 8, backgroundColor: 'transparent' }} key={index}>
                   <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'left', backgroundColor: 'transparent' }}>
-                    <p style={{ backgroundColor: 'transparent', fontSize: 16 }}><strong>{e.name}</strong></p>
+                    <p style={{ backgroundColor: 'transparent', fontSize: 16, paddingTop: 12, paddingBottom: 12 }}><strong>{e.name}</strong></p>
                   </div>
                   <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: 'transparent' }}>
                     <p style={{ margin: '0 auto', backgroundColor: 'transparent', fontSize: 14 }}>{e.sets} x {e.reps}</p>
