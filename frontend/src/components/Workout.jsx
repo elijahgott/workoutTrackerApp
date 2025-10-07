@@ -9,7 +9,7 @@ import exerciseService from '../services/exercises'
 import ExerciseInput from './ExerciseInput'
 
 const WorkoutBorder = styled.div`
-  background: linear-gradient(90deg,rgba(131, 58, 180, 1) 0%, rgba(253, 29, 29, 1) 50%, rgba(252, 176, 69, 1) 100%);
+  background: linear-gradient(145deg,rgba(131, 58, 180, 1) 0%, rgba(253, 29, 29, 1) 50%, rgba(252, 176, 69, 1) 100%);
   padding: 4px;
   border-radius: 20px;
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
@@ -47,7 +47,7 @@ const Form = styled.form`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(90deg,rgba(131, 58, 180, 1) 0%, rgba(253, 29, 29, 1) 50%, rgba(252, 176, 69, 1) 100%);
+  background: linear-gradient(145deg,rgba(131, 58, 180, 1) 0%, rgba(253, 29, 29, 1) 50%, rgba(252, 176, 69, 1) 100%);
   border-radius: 8px;
 `
 
