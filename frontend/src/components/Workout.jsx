@@ -51,6 +51,28 @@ const Form = styled.form`
   border-radius: 8px;
 `
 
+const Input = styled.input`
+  width: 100%;
+  padding: 8px;
+  margin: 4px;
+  border: 1px solid white;
+  border-radius: 8px;
+`
+
+const InputDark = styled.input`
+  width: 100%;
+  padding: 8px;
+  margin: 4px;
+  border: 1px solid black;
+  border-radius: 8px;
+  background-color: rgb(25, 25, 25);
+  color: white;
+
+  &::placeholder{
+    color: white;
+  }
+`
+
 const Button = styled.button`
   aspect-ratio: 1 / 1;
   height: 100%;
@@ -117,6 +139,7 @@ const Workout = ({ isDark, workout, workouts, setWorkouts, currentUser, setNotif
   const [sets, setSets] = useState('')
   const [reps, setReps] = useState('')
   const [weight, setWeight] = useState('')
+  const [note, setNote] = useState('')
 
   const handleEditExercise = async (event, workoutId, exerciseId) => {
     event.preventDefault()
@@ -130,7 +153,8 @@ const Workout = ({ isDark, workout, workouts, setWorkouts, currentUser, setNotif
       name: exerciseName,
       sets: parseInt(sets),
       reps: parseInt(reps),
-      weight: parseInt(weight)
+      weight: parseInt(weight),
+      note: note
     }
 
     await exerciseService.update(exerciseId, updatedExercise)
@@ -144,8 +168,10 @@ const Workout = ({ isDark, workout, workouts, setWorkouts, currentUser, setNotif
 
     setWorkouts(updatedWorkouts)
     setTimeout(() => fetchWorkouts(), 1000)
+    setNote('')
   }
 
+  // toggle edit exercise form
   const [editingExerciseId, setEditingExerciseId] = useState(null)
   const toggleVisibility = (exercise) => {
     if(editingExerciseId === exercise.id){
@@ -158,10 +184,21 @@ const Workout = ({ isDark, workout, workouts, setWorkouts, currentUser, setNotif
       setSets(exercise.sets)
       setReps(exercise.reps)
       setWeight(exercise.weight)
+      setNote(exercise.note)
+      console.log(note)
     }
   }
 
-
+  // toggle exercise note
+  const [showingNoteId, setShowingNoteId] = useState(null)
+  const toggleNoteVisibility = (exercise) => {
+    if(showingNoteId === exercise.id){
+      setShowingNoteId(null)
+    }
+    else{ // show mode
+      setShowingNoteId(exercise.id)
+    }
+  }
 
   return(
     <WorkoutBorder>
@@ -171,7 +208,7 @@ const Workout = ({ isDark, workout, workouts, setWorkouts, currentUser, setNotif
           return(
             <StyledExercise style={ isDark ? { color: 'white', backgroundColor: 'transparent' } : { color: 'black', backgroundColor: 'transparent' } } key={e.name}>
               <div style={{ display: 'flex'}}>
-                <div style={{ display: 'grid', gridTemplateColumns: '33% 33% 33%', width: '80%', marginRight: 8, backgroundColor: 'transparent' }} key={index}>
+                <div style={{ display: 'grid', gridTemplateColumns: '33% 33% 33%', width: '80%', marginRight: 8, backgroundColor: 'transparent' }} key={index} onClick={() => toggleNoteVisibility(e)} >
                   <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'left', backgroundColor: 'transparent' }}>
                     <p style={{ backgroundColor: 'transparent', fontSize: 16, paddingTop: 12, paddingBottom: 12 }}><strong>{e.name}</strong></p>
                   </div>
@@ -188,6 +225,13 @@ const Workout = ({ isDark, workout, workouts, setWorkouts, currentUser, setNotif
                   <Button onClick={(event) => handleDeleteExercise(event, workout.id, e.id)}><MdDeleteOutline style={ isDark ? { fontSize: 20, margin: 0, color: 'white' } : { fontSize: 20, margin: 0, color: 'black' }}/></Button>
                 </div>
               </div>
+
+              {showingNoteId === e.id && (
+                e.note ? 
+                <p style={{ textAlign: 'left', fontSize: 12, padding: 4 }}>{e.note}</p>
+                : 
+                <p style={{ textAlign: 'center', fontSize: 12, padding: 4, color: 'gray' }}>No notes for this exercise...</p>
+              )}
       
               {editingExerciseId === e.id && (
                 <Form onSubmit={(event) => handleEditExercise(event, workout.id, e.id)}>
@@ -195,6 +239,11 @@ const Workout = ({ isDark, workout, workouts, setWorkouts, currentUser, setNotif
                   sets={sets} setSets={setSets}
                   reps={reps} setReps={setReps}
                   weight={weight} setWeight={setWeight} />
+                  { isDark ? 
+                    <InputDark style={{ width: '98%' }} type='text' value={note} onChange={({target}) => setNote(target.value)} placeholder='New Note...' maxLength={55} />
+                    :
+                    <Input style={{ width: '98%' }} type='text' value={note} onChange={({target}) => setNote(target.value)} placeholder='New Note...' maxLength={55} />
+                  }
                   <Button style={ isDark ? { margin: '4px auto', backgroundColor: 'rgb(25, 25, 25)' } : { margin: '4px auto', backgroundColor: 'white' }} type='submit'><MdCheck style={ isDark ? { fontSize: 20, margin: 0, color: 'white' } : { fontSize: 20, margin: 0, color: 'black' }} /></Button>
                 </Form>
               )}

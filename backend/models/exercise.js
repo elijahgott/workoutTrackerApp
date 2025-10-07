@@ -8,15 +8,20 @@ const exerciseSchema = new mongoose.Schema({
   },
   sets: {
     type: Number,
-    reqiured: true
+    required: true
   },
   reps: {
     type: Number,
-    reqiured: true
+    required: true
   },
   weight: {
     type: Number,
-    reqiured: true
+    required: true
+  },
+  note: {
+    type: String,
+    maxLength: 55,
+    required: false
   },
   workout: {
     type: mongoose.Schema.Types.ObjectId,

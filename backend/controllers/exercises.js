@@ -64,7 +64,7 @@ exercisesRouter.post('/', async (req, res) => {
 
 // update exercise
 exercisesRouter.put('/:id', async (req, res) => {
-  const { name, sets, reps, weight } = req.body
+  const { name, sets, reps, weight, note } = req.body
   const exercise = await Exercise.findById({ _id: req.params.id })
 
   console.log(exercise)
@@ -77,6 +77,7 @@ exercisesRouter.put('/:id', async (req, res) => {
   exercise.sets = sets
   exercise.reps = reps
   exercise.weight = weight
+  exercise.note = note
 
   exercise.save()
   res.json(exercise)

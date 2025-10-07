@@ -2,7 +2,7 @@ import styled from 'styled-components'
 import { MdLogout } from 'react-icons/md'
 
 const NavBorder = styled.div`
-  background: linear-gradient(90deg,rgba(131, 58, 180, 1) 0%, rgba(253, 29, 29, 1) 50%, rgba(252, 176, 69, 1) 100%);
+  background: linear-gradient(145deg,rgba(131, 58, 180, 1) 0%, rgba(253, 29, 29, 1) 50%, rgba(252, 176, 69, 1) 100%);
   margin: 0 auto;
   padding: 4px;
   border-radius: 20px;
